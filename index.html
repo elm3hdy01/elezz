@@ -1,0 +1,4190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الحجوزات والفنادق والطيران والجوالات</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 400px;
+            padding: 25px;
+            border-right: 1px solid #eee;
+            background-color: #f9fafc;
+        }
+        
+        .data-section {
+            flex: 2;
+            min-width: 600px;
+            padding: 25px;
+        }
+        
+        .section-title {
+            color: #0c2461;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3799;
+            font-size: 1.5rem;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .form-group-full {
+            flex: 100%;
+        }
+        
+        .form-group-half {
+            flex: 0.5;
+            min-width: 180px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #0c2461;
+            font-size: 0.9rem;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1e3799;
+            box-shadow: 0 0 0 2px rgba(30, 55, 153, 0.2);
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background-color: #1e3799;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0c2461;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #219653;
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-info {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #d68910;
+        }
+        
+        .btn-purple {
+            background-color: #8e44ad;
+            color: white;
+        }
+        
+        .btn-purple:hover {
+            background-color: #7d3c98;
+        }
+        
+        .btn-teal {
+            background-color: #1abc9c;
+            color: white;
+        }
+        
+        .btn-teal:hover {
+            background-color: #16a085;
+        }
+        
+        .btn-orange {
+            background-color: #e67e22;
+            color: white;
+        }
+        
+        .btn-orange:hover {
+            background-color: #d35400;
+        }
+        
+        .buttons-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            font-size: 0.85rem;
+        }
+        
+        th {
+            background-color: #0c2461;
+            color: white;
+            padding: 12px 10px;
+            text-align: right;
+            white-space: nowrap;
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover {
+            background-color: #f5f7fa;
+        }
+        
+        .status-confirmed {
+            background-color: #eafaf1;
+            color: #27ae60;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .status-pending {
+            background-color: #fef9e7;
+            color: #f39c12;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .status-cancelled {
+            background-color: #fdedec;
+            color: #e74c3c;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .status-refunded {
+            background-color: #e8f6f3;
+            color: #16a085;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .status-active {
+            background-color: #e8f4fd;
+            color: #3498db;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .summary-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 180px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .card h3 {
+            color: #0c2461;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .card .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e3799;
+        }
+        
+        .card .sub-value {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .search-filter {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .search-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        @media print {
+            .input-section, .btn, .no-print, .search-filter, .summary-cards, .export-buttons {
+                display: none !important;
+            }
+            
+            .data-section {
+                width: 100%;
+                background-color: white;
+                box-shadow: none;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            header {
+                background: white !important;
+                color: black !important;
+                border-bottom: 2px solid #0c2461;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .input-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+        }
+        
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        
+        .lang-btn {
+            padding: 8px 15px;
+            background-color: white;
+            color: #0c2461;
+            border: 1px solid #0c2461;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+        
+        .tab.active {
+            color: #1e3799;
+            border-bottom: 3px solid #1e3799;
+        }
+        
+        .section-divider {
+            margin: 25px 0;
+            border-top: 2px dashed #ddd;
+        }
+        
+        .alert-notification {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-notification i {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .financial-summary {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid #3498db;
+        }
+        
+        .financial-summary h4 {
+            color: #0c2461;
+            margin-bottom: 10px;
+        }
+        
+        .financial-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .financial-detail {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .financial-detail label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .financial-detail span {
+            color: #0c2461;
+            font-weight: 500;
+        }
+        
+        .alarm-indicator {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .hotel-booking {
+            background-color: #e8f6f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid #1abc9c;
+        }
+        
+        .flight-booking {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid #3498db;
+        }
+        
+        .tour-booking {
+            background-color: #fef9e7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 4px solid #f39c12;
+        }
+        
+        .flight-booking h4, .tour-booking h4 {
+            color: #0c2461;
+            margin-bottom: 10px;
+        }
+        
+        .hotel-booking h4 {
+            color: #0c2461;
+            margin-bottom: 10px;
+        }
+        
+        .form-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        
+        .form-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+        
+        .form-tab.active {
+            color: #1e3799;
+            border-bottom: 3px solid #1e3799;
+        }
+        
+        .form-section {
+            display: none;
+        }
+        
+        .form-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn" onclick="toggleLanguage()">En/Ar</button>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1 id="app-title">شركه العز الدولية للسفر والسياحة</h1>
+            <p id="app-desc">حجوزات العملاء  ( من الفنادق والطيران والجولات )</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" id="new-booking-tab" onclick="switchTab('new-booking')">
+                <span id="tab-new-booking">إضافة حجز جديد</span>
+            </div>
+            <div class="tab" id="client-bookings-tab" onclick="switchTab('client-bookings')">
+                <span id="tab-client-bookings">حجوزات العملاء</span>
+            </div>
+            <div class="tab" id="hotel-bookings-tab" onclick="switchTab('hotel-bookings')">
+                <span id="tab-hotel-bookings">حجوزات الفنادق</span>
+            </div>
+            <div class="tab" id="flight-bookings-tab" onclick="switchTab('flight-bookings')">
+                <span id="tab-flight-bookings">حجوزات الطيران</span>
+            </div>
+            <div class="tab" id="tour-bookings-tab" onclick="switchTab('tour-bookings')">
+                <span id="tab-tour-bookings">الجوالات السياحية</span>
+            </div>
+            <div class="tab" id="financial-tab" onclick="switchTab('financial')">
+                <span id="tab-financial">التقارير المالية</span>
+            </div>
+            <div class="tab" id="alarms-tab" onclick="switchTab('alarms')">
+                <span id="tab-alarms">التنبيهات</span>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- قسم إضافة الحجز الجديد -->
+            <section class="input-section" id="new-booking-section">
+                <h2 class="section-title" id="input-title">إضافة حجز جديد</h2>
+                
+                <div class="form-tabs">
+                    <div class="form-tab active" onclick="switchFormTab('client')" id="form-tab-client">
+                        حجز عميل
+                    </div>
+                    <div class="form-tab" onclick="switchFormTab('hotel')" id="form-tab-hotel">
+                        حجز فندق
+                    </div>
+                    <div class="form-tab" onclick="switchFormTab('flight')" id="form-tab-flight">
+                        حجز طيران
+                    </div>
+                    <div class="form-tab" onclick="switchFormTab('tour')" id="form-tab-tour">
+                        جوال سياحي
+                    </div>
+                </div>
+                
+                <!-- نموذج حجز العميل -->
+                <div class="form-section active" id="client-form-section">
+                    <!-- المحتوى الحالي لحجز العميل -->
+                    <h3 class="section-title" id="client-form-title">بيانات حجز العميل</h3>
+                    
+                    <!-- معلومات الحجز الأساسية -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookingDate">تاريخ الحجز:</label>
+                            <input type="date" id="bookingDate" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="arrivalDate">تاريخ الوصول:</label>
+                            <input type="date" id="arrivalDate" value="">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات العميل -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientName">اسم العميل:</label>
+                            <input type="text" id="clientName" placeholder="اسم العميل الكامل">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientPhone">رقم الهاتف:</label>
+                            <input type="tel" id="clientPhone" placeholder="رقم هاتف العميل">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientCode">كود العميل:</label>
+                            <input type="text" id="clientCode" placeholder="كود العميل الفريد" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="agentName">اسم الوكيل:</label>
+                            <input type="text" id="agentName" placeholder="اسم الوكيل المسؤول">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الرحلة -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="travelFrom">السفر من:</label>
+                            <input type="text" id="travelFrom" placeholder="مدينة المغادرة">
+                        </div>
+                        <div class="form-group">
+                            <label for="travelTo">السفر إلى:</label>
+                            <input type="text" id="travelTo" placeholder="مدينة الوصول">
+                        </div>
+                    </div>
+                    
+                    <!-- المعلومات المالية -->
+                    <div class="section-divider"></div>
+                    <h3 class="section-title">المعلومات المالية</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cost">التكلفة:</label>
+                            <input type="number" id="cost" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="profit">الربح:</label>
+                            <input type="number" id="profit" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="finalPackageRate">سعر الحزمة النهائي:</label>
+                            <input type="number" id="finalPackageRate" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="amountPaid">المبلغ المدفوع:</label>
+                            <input type="number" id="amountPaid" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientCurrency">العملة:</label>
+                            <select id="clientCurrency">
+                                <option value="SAR">SAR (ريال سعودي)</option>
+                                <option value="USD" selected>USD (دولار أمريكي)</option>
+                                <option value="EUR">EUR (يورو)</option>
+                                <option value="GBP">GBP (جنيه إسترليني)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="balance">الرصيد:</label>
+                            <input type="number" id="balance" min="0" step="0.01" value="0.00" readonly>
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الدفع -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paymentCode">كود الدفع:</label>
+                            <input type="text" id="paymentCode" placeholder="كود عملية الدفع">
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentDate">تاريخ الدفع:</label>
+                            <input type="date" id="paymentDate" value="">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bankName">اسم البنك:</label>
+                            <input type="text" id="bankName" placeholder="اسم البنك">
+                        </div>
+                        <div class="form-group">
+                            <label for="bankRef">المرجع البنكي:</label>
+                            <input type="text" id="bankRef" placeholder="الرقم المرجعي للبنك">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الحزمة -->
+                    <div class="section-divider"></div>
+                    <h3 class="section-title">معلومات الحزمة</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="packageType">نوع الحزمة:</label>
+                            <select id="packageType">
+                                <option value="">اختر نوع الحزمة</option>
+                                <option value="سياحة">سياحة</option>
+                                <option value="علاج">علاج</option>
+                                <option value="عمرة">عمرة</option>
+                                <option value="حج">حج</option>
+                                <option value="دراسة">دراسة</option>
+                                <option value="عمل">عمل</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmedBy">تم التأكيد بواسطة:</label>
+                            <input type="text" id="confirmedBy" placeholder="اسم الموظف المؤكد">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="packageStatus">حالة تأكيد الحزمة:</label>
+                            <select id="packageStatus">
+                                <option value="معلق">معلق</option>
+                                <option value="مؤكد" selected>مؤكد</option>
+                                <option value="ملغي">ملغي</option>
+                                <option value="مكتمل">مكتمل</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="alarmDate">تاريخ التنبيه:</label>
+                            <input type="date" id="alarmDate" value="">
+                        </div>
+                    </div>
+                    
+                    <!-- الملاحظات -->
+                    <div class="form-row">
+                        <div class="form-group form-group-full">
+                            <label for="clientNotes">ملاحظات:</label>
+                            <textarea id="clientNotes" rows="3" placeholder="أي ملاحظات إضافية عن الحجز..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- ملخص سريع -->
+                    <div class="financial-summary">
+                        <h4>الملخص المالي للحجز</h4>
+                        <div class="financial-details">
+                            <div class="financial-detail">
+                                <label>إجمالي الحزمة:</label>
+                                <span id="clientSummaryTotal">0.00</span> <span id="clientSummaryCurrency">USD</span>
+                            </div>
+                            <div class="financial-detail">
+                                <label>المدفوع:</label>
+                                <span id="clientSummaryPaid">0.00</span> <span id="clientSummaryCurrency2">USD</span>
+                            </div>
+                            <div class="financial-detail">
+                                <label>المتبقي:</label>
+                                <span id="clientSummaryBalance">0.00</span> <span id="clientSummaryCurrency3">USD</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="buttons-row">
+                        <button class="btn btn-primary" onclick="addClientBooking()" id="add-client-booking-btn">إضافة حجز العميل</button>
+                        <button class="btn btn-secondary" onclick="resetClientForm()" id="reset-client-btn">مسح النموذج</button>
+                        <button class="btn btn-info" onclick="calculateClientBalance()" id="calculate-client-btn">حساب الرصيد</button>
+                    </div>
+                </div>
+                
+                <!-- نموذج حجز الفندق -->
+                <div class="form-section" id="hotel-form-section">
+                    <!-- المحتوى الحالي لحجز الفندق -->
+                    <h3 class="section-title" id="hotel-form-title">بيانات حجز الفندق</h3>
+                    
+                    <!-- معلومات الحجز الأساسية -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tbohConfirmationNo">TBOH رقم التأكيد:</label>
+                            <input type="text" id="tbohConfirmationNo" placeholder="TBOH CONFIRMATION NO." value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="hotelName">اسم الفندق:</label>
+                            <input type="text" id="hotelName" placeholder="اسم الفندق">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hotelCity">مدينة الفندق:</label>
+                            <input type="text" id="hotelCity" placeholder="مدينة الفندق">
+                        </div>
+                        <div class="form-group">
+                            <label for="hotelCountry">دولة الفندق:</label>
+                            <input type="text" id="hotelCountry" placeholder="دولة الفندق" value="السعودية">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات التواريخ -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hotelCheckInDate">تاريخ الوصول (CHECK-IN DATE):</label>
+                            <input type="date" id="hotelCheckInDate" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="arrivalTime">وقت الوصول (Arrival Time):</label>
+                            <input type="time" id="arrivalTime" value="14:00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hotelCheckOutDate">تاريخ المغادرة (CHECK-OUT DATE):</label>
+                            <input type="date" id="hotelCheckOutDate" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastCancellationDate">آخر تاريخ للإلغاء (LAST CANCELLATION DATE):</label>
+                            <input type="date" id="lastCancellationDate" value="">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الغرف والمبالغ -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="noOfRooms">عدد الغرف (NO. OF ROOMS):</label>
+                            <input type="number" id="noOfRooms" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="roomCategory">فئة الغرفة (ROOM CATEGORY):</label>
+                            <select id="roomCategory">
+                                <option value="Standard">Standard</option>
+                                <option value="Deluxe" selected>Deluxe</option>
+                                <option value="Suite">Suite</option>
+                                <option value="Executive">Executive</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="totalAmount1">المبلغ الإجمالي 1 (TOTAL AMOUNT1):</label>
+                            <input type="number" id="totalAmount1" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="currency1">العملة 1 (Currency 1):</label>
+                            <select id="currency1">
+                                <option value="USD" selected>USD (دولار أمريكي)</option>
+                                <option value="SAR">SAR (ريال سعودي)</option>
+                                <option value="EUR">EUR (يورو)</option>
+                                <option value="GBP">GBP (جنيه إسترليني)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currency2">العملة 2 (Currency 2):</label>
+                            <select id="currency2">
+                                <option value="MYR" selected>MYR (رينغيت ماليزي)</option>
+                                <option value="USD">USD (دولار أمريكي)</option>
+                                <option value="SAR">SAR (ريال سعودي)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="totalAmount2">المبلغ الإجمالي 2 (TOTAL AMOUNT2):</label>
+                            <input type="number" id="totalAmount2" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الاسترداد -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cancellationFee">رسوم الإلغاء (CANCELLATION FEE):</label>
+                            <input type="number" id="cancellationFee" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="refundAmount">مبلغ الاسترداد (REFUND AMOUNT):</label>
+                            <input type="number" id="refundAmount" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="refundStatus">حالة الاسترداد (REFUND STATUS):</label>
+                            <select id="refundStatus">
+                                <option value="Pending" selected>Pending</option>
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Cancelled">Cancelled</option>
+                                <option value="Refunded">Refunded</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="netAmount">صافي المبلغ (NET AMOUNT):</label>
+                            <input type="number" id="netAmount" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group form-group-full">
+                            <label for="netOfAmount">ملاحظات إضافية (NET OF AMOUNT):</label>
+                            <textarea id="netOfAmount" rows="2" placeholder="ملاحظات إضافية حول الحجز..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- ملخص حجز الفندق -->
+                    <div class="hotel-booking">
+                        <h4>ملخص حجز الفندق</h4>
+                        <div class="financial-details">
+                            <div class="financial-detail">
+                                <label>إجمالي المبلغ:</label>
+                                <span id="hotelTotalAmount">0.00</span> <span id="hotelTotalCurrency">USD</span>
+                            </div>
+                            <div class="financial-detail">
+                                <label>مبلغ الاسترداد:</label>
+                                <span id="hotelRefundAmount">0.00</span> <span id="hotelRefundCurrency">MYR</span>
+                            </div>
+                            <div class="financial-detail">
+                                <label>صافي المبلغ:</label>
+                                <span id="hotelNetAmount">0.00</span> <span id="hotelNetCurrency">MYR</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="buttons-row">
+                        <button class="btn btn-purple" onclick="addHotelBooking()" id="add-hotel-booking-btn">إضافة حجز الفندق</button>
+                        <button class="btn btn-secondary" onclick="resetHotelForm()" id="reset-hotel-btn">مسح النموذج</button>
+                        <button class="btn btn-info" onclick="calculateHotelNetAmount()" id="calculate-hotel-btn">حساب الصافي</button>
+                    </div>
+                </div>
+                
+                <!-- نموذج حجز الطيران -->
+                <div class="form-section" id="flight-form-section">
+                    <!-- المحتوى السابق لحجز الطيران -->
+                    <h3 class="section-title" id="flight-form-title">بيانات حجز الطيران</h3>
+                    
+                    <!-- معلومات العميل -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="flightClientCode">كود العميل (Client Code):</label>
+                            <input type="text" id="flightClientCode" placeholder="كود العميل" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="flightClientName">اسم العميل (Client Name):</label>
+                            <input type="text" id="flightClientName" placeholder="اسم العميل الكامل">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الرحلة -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="flyFrom">من (Fly From):</label>
+                            <input type="text" id="flyFrom" placeholder="مدينة المغادرة">
+                        </div>
+                        <div class="form-group">
+                            <label for="flyTo">إلى (Fly To):</label>
+                            <input type="text" id="flyTo" placeholder="مدينة الوصول">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="paxNumber">عدد المسافرين (Pax Number):</label>
+                            <input type="number" id="paxNumber" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="dateGo">تاريخ السفر (ذهاب) (Date of Travel (Go)):</label>
+                            <input type="date" id="dateGo" value="">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dateBack">تاريخ السفر (عودة) (Date of Travel (Back)):</label>
+                            <input type="date" id="dateBack" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="flightSellingRate">سعر بيع التذكرة (Flight Selling Rate):</label>
+                            <input type="number" id="flightSellingRate" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الحجز -->
+                    <div class="section-divider"></div>
+                    <h3 class="section-title">معلومات الحجز والمتابعة</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookingRate">سعر الحجز (BOOKING RATE):</label>
+                            <input type="number" id="bookingRate" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmationNo">رقم التأكيد (Cof. No):</label>
+                            <input type="text" id="confirmationNo" placeholder="رقم تأكيد الحجز">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookedFrom">حجز من (Booked from):</label>
+                            <input type="text" id="bookedFrom" placeholder="مصدر الحجز (موقع/مكتب)">
+                        </div>
+                        <div class="form-group">
+                            <label for="chargeFrom">الدفع من (Charge from):</label>
+                            <input type="text" id="chargeFrom" placeholder="مصدر الدفع">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dueDate">تاريخ استحقاق الدفع (Due date of payment):</label>
+                            <input type="date" id="dueDate" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingStatus">حالة الحجز (Cancel / Active):</label>
+                            <select id="bookingStatus">
+                                <option value="Active" selected>نشط (Active)</option>
+                                <option value="Cancelled">ملغي (Cancelled)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الإلغاء والاسترداد -->
+                    <div class="section-divider"></div>
+                    <h3 class="section-title">معلومات الإلغاء والاسترداد</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cancellationCharge">رسوم الإلغاء (Cancellation charge):</label>
+                            <input type="number" id="cancellationCharge" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientRefund">استرداد العميل (Cleint / Alezz Refund):</label>
+                            <input type="number" id="clientRefund" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rateAfterCancellation">سعر الحجز بعد الإلغاء (SAR/OMR) (booking RATE after cancelation (SAR/OMR)):</label>
+                            <input type="number" id="rateAfterCancellation" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="rateAfterConversion">السعر بعد التحويل (Rate after conversion):</label>
+                            <input type="number" id="rateAfterConversion" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="refundCurrency">عملة الاسترداد:</label>
+                            <select id="refundCurrency">
+                                <option value="SAR">SAR (ريال سعودي)</option>
+                                <option value="OMR">OMR (ريال عماني)</option>
+                                <option value="USD" selected>USD (دولار أمريكي)</option>
+                                <option value="EUR">EUR (يورو)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="refundAmountAfterConversion">مبلغ الاسترداد بعد التحويل (Refund amount after conversion):</label>
+                            <input type="number" id="refundAmountAfterConversion" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <!-- الملاحظات -->
+                    <div class="form-row">
+                        <div class="form-group form-group-full">
+                            <label for="flightNote">ملاحظات (Note):</label>
+                            <textarea id="flightNote" rows="3" placeholder="أي ملاحظات إضافية عن حجز الطيران..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- ملخص حجز الطيران -->
+                    <div class="flight-booking">
+                        <h4>ملخص حجز الطيران</h4>
+                        <div class="financial-details">
+                            <div class="financial-detail">
+                                <label>سعر بيع التذكرة:</label>
+                                <span id="flightSellingRateDisplay">0.00</span> <span id="flightSellingCurrency">SAR</span>
+                            </div>
+                            <div class="financial-detail">
+                                <label>سعر الحجز:</label>
+                                <span id="bookingRateDisplay">0.00</span> <span id="bookingRateCurrency">SAR</span>
+                            </div>
+                            <div class="financial-detail">
+                                <label>مبلغ الاسترداد:</label>
+                                <span id="refundAmountDisplay">0.00</span> <span id="refundAmountCurrency">SAR</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="buttons-row">
+                        <button class="btn btn-teal" onclick="addFlightBooking()" id="add-flight-booking-btn">إضافة حجز الطيران</button>
+                        <button class="btn btn-secondary" onclick="resetFlightForm()" id="reset-flight-btn">مسح النموذج</button>
+                        <button class="btn btn-info" onclick="calculateFlightRefund()" id="calculate-flight-btn">حساب الاسترداد</button>
+                    </div>
+                </div>
+                
+                <!-- نموذج الجوالات السياحية -->
+                <div class="form-section" id="tour-form-section">
+                    <h3 class="section-title" id="tour-form-title">بيانات الجوالة السياحية</h3>
+                    
+                    <!-- معلومات العميل -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourClientCode">كود العميل (Client Code):</label>
+                            <input type="text" id="tourClientCode" placeholder="كود العميل" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourClientName">اسم العميل (Client Name):</label>
+                            <input type="text" id="tourClientName" placeholder="اسم العميل الكامل">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الجوالة -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourDate">تاريخ الجوالة (Date):</label>
+                            <input type="date" id="tourDate" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourDestination">الوجهة (Destination):</label>
+                            <input type="text" id="tourDestination" placeholder="الوجهة السياحية">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourSupplier">المزود (Supplier):</label>
+                            <input type="text" id="tourSupplier" placeholder="اسم المزود أو الشركة">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourName">اسم الجوالة (tour):</label>
+                            <input type="text" id="tourName" placeholder="اسم الجوالة السياحية">
+                        </div>
+                    </div>
+                    
+                    <!-- المعلومات المالية -->
+                    <div class="section-divider"></div>
+                    <h3 class="section-title">المعلومات المالية</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourCost">تكلفة الجوالة (cost tour):</label>
+                            <input type="number" id="tourCost" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourCurrency">العملة (Currency):</label>
+                            <select id="tourCurrency">
+                                <option value="SAR" selected>SAR (ريال سعودي)</option>
+                                <option value="OMR">OMR (ريال عماني)</option>
+                                <option value="USD">USD (دولار أمريكي)</option>
+                                <option value="EUR">EUR (يورو)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourBookingRate">سعر الحجز (BOOKING RATE):</label>
+                            <input type="number" id="tourBookingRate" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourConfirmationNo">رقم التأكيد (Cof. No):</label>
+                            <input type="text" id="tourConfirmationNo" placeholder="رقم تأكيد الحجز">
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الحجز والمتابعة -->
+                    <div class="section-divider"></div>
+                    <h3 class="section-title">معلومات الحجز والمتابعة</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourBookedFrom">حجز من (Booked from):</label>
+                            <input type="text" id="tourBookedFrom" placeholder="مصدر الحجز (موقع/مكتب)">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourChargeFrom">الدفع من (Charge from):</label>
+                            <input type="text" id="tourChargeFrom" placeholder="مصدر الدفع">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourDueDate">تاريخ استحقاق الدفع (Due date of payment):</label>
+                            <input type="date" id="tourDueDate" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourStatus">حالة الحجز (Cancel / Active):</label>
+                            <select id="tourStatus">
+                                <option value="Active" selected>نشط (Active)</option>
+                                <option value="Cancelled">ملغي (Cancelled)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- معلومات الإلغاء والاسترداد -->
+                    <div class="section-divider"></div>
+                    <h3 class="section-title">معلومات الإلغاء والاسترداد</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourCancellationCharge">رسوم الإلغاء (Cancellation charge):</label>
+                            <input type="number" id="tourCancellationCharge" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourClientRefund">استرداد العميل (Cleint / Alezz Refund):</label>
+                            <input type="number" id="tourClientRefund" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourRateAfterCancellation">سعر الحجز بعد الإلغاء (SAR/OMR) (booking RATE after cancelation (SAR/OMR)):</label>
+                            <input type="number" id="tourRateAfterCancellation" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourRateAfterConversion">السعر بعد التحويل (Rate after conversion):</label>
+                            <input type="number" id="tourRateAfterConversion" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <!-- الملاحظات والمبالغ -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tourRefundCurrency">عملة الاسترداد:</label>
+                            <select id="tourRefundCurrency">
+                                <option value="SAR" selected>SAR (ريال سعودي)</option>
+                                <option value="OMR">OMR (ريال عماني)</option>
+                                <option value="USD">USD (دولار أمريكي)</option>
+                                <option value="EUR">EUR (يورو)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tourRefundAmountAfterConversion">مبلغ الاسترداد بعد التحويل (Refund amount after conversion):</label>
+                            <input type="number" id="tourRefundAmountAfterConversion" min="0" step="0.01" value="0.00">
+                        </div>
+                    </div>
+                    
+                    <!-- الملاحظات -->
+                    <div class="form-row">
+                        <div class="form-group form-group-full">
+                            <label for="tourNote">ملاحظات (Note):</label>
+                            <textarea id="tourNote" rows="3" placeholder="أي ملاحظات إضافية عن الجوالة السياحية..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- ملخص الجوالة السياحية -->
+                    <div class="tour-booking">
+                        <h4>ملخص الجوالة السياحية</h4>
+                        <div class="financial-details">
+                            <div class="financial-detail">
+                                <label>تكلفة الجوالة:</label>
+                                <span id="tourCostDisplay">0.00</span> <span id="tourCostCurrency">SAR</span>
+                            </div>
+                            <div class="financial-detail">
+                                <label>سعر الحجز:</label>
+                                <span id="tourBookingRateDisplay">0.00</span> <span id="tourBookingRateCurrency">SAR</span>
+                            </div>
+                            <div class="financial-detail">
+                                <label>مبلغ الاسترداد:</label>
+                                <span id="tourRefundAmountDisplay">0.00</span> <span id="tourRefundCurrency">SAR</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="buttons-row">
+                        <button class="btn btn-orange" onclick="addTourBooking()" id="add-tour-booking-btn">إضافة جوالة سياحية</button>
+                        <button class="btn btn-secondary" onclick="resetTourForm()" id="reset-tour-btn">مسح النموذج</button>
+                        <button class="btn btn-info" onclick="calculateTourRefund()" id="calculate-tour-btn">حساب الاسترداد</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- قسم حجوزات العملاء -->
+            <section class="data-section hidden" id="client-bookings-section">
+                <!-- المحتوى الحالي لحجوزات العملاء -->
+                <div class="search-filter">
+                    <h3 id="client-search-title">بحث وتصفية حجوزات العملاء</h3>
+                    <div class="search-row">
+                        <div class="form-group">
+                            <label for="clientSearchInput">بحث:</label>
+                            <input type="text" id="clientSearchInput" placeholder="ابحث باسم العميل أو كود العميل...">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientStatusFilter">حالة الحجز:</label>
+                            <select id="clientStatusFilter">
+                                <option value="all">جميع الحالات</option>
+                                <option value="معلق">معلق</option>
+                                <option value="مؤكد">مؤكد</option>
+                                <option value="ملغي">ملغي</option>
+                                <option value="مكتمل">مكتمل</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-info" onclick="searchClientBookings()" id="client-search-btn">بحث</button>
+                            <button class="btn btn-secondary" onclick="clearClientSearch()" id="client-clear-btn">مسح البحث</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3 id="total-client-bookings">إجمالي حجوزات العملاء</h3>
+                        <div class="value" id="totalClientBookingsCount">0</div>
+                        <div class="sub-value">حجز</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-client-revenue">إجمالي الإيرادات</h3>
+                        <div class="value" id="totalClientRevenue">0</div>
+                        <div class="sub-value" id="clientRevenueCurrency">USD</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="pending-client-bookings">الحجوزات المعلقة</h3>
+                        <div class="value" id="pendingClientBookingsCount">0</div>
+                        <div class="sub-value">حجز</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-client-balance">إجمالي المستحق</h3>
+                        <div class="value" id="totalClientBalance">0</div>
+                        <div class="sub-value" id="clientBalanceCurrency">USD</div>
+                    </div>
+                </div>
+                
+                <div id="client-bookings-table-container">
+                    <h3 class="section-title" id="client-bookings-title">سجل حجوزات العملاء</h3>
+                    <div class="table-responsive">
+                        <table id="clientBookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>تاريخ الحجز</th>
+                                    <th>اسم العميل</th>
+                                    <th>كود العميل</th>
+                                    <th>الوكيل</th>
+                                    <th>من - إلى</th>
+                                    <th>نوع الحزمة</th>
+                                    <th>إجمالي الحزمة</th>
+                                    <th>المدفوع</th>
+                                    <th>المتبقي</th>
+                                    <th>حالة الحجز</th>
+                                    <th>تاريخ التنبيه</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientBookingsTableBody">
+                                <!-- سيتم ملء البيانات هنا ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="export-buttons">
+                    <button class="btn btn-success" onclick="exportClientBookingsToExcel()" id="export-client-excel-btn">تصدير إلى Excel</button>
+                    <button class="btn btn-info" onclick="printClientBookings()" id="print-client-btn">طباعة التقرير</button>
+                    <button class="btn btn-warning" onclick="showClientAlarms()" id="client-alarms-btn">عرض التنبيهات</button>
+                </div>
+            </section>
+            
+            <!-- قسم حجوزات الفنادق -->
+            <section class="data-section hidden" id="hotel-bookings-section">
+                <!-- المحتوى الحالي لحجوزات الفنادق -->
+                <div class="search-filter">
+                    <h3 id="hotel-search-title">بحث وتصفية حجوزات الفنادق</h3>
+                    <div class="search-row">
+                        <div class="form-group">
+                            <label for="hotelSearchInput">بحث:</label>
+                            <input type="text" id="hotelSearchInput" placeholder="ابحث باسم الفندق أو رقم التأكيد...">
+                        </div>
+                        <div class="form-group">
+                            <label for="hotelStatusFilter">حالة الاسترداد:</label>
+                            <select id="hotelStatusFilter">
+                                <option value="all">جميع الحالات</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Cancelled">Cancelled</option>
+                                <option value="Refunded">Refunded</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-info" onclick="searchHotelBookings()" id="hotel-search-btn">بحث</button>
+                            <button class="btn btn-secondary" onclick="clearHotelSearch()" id="hotel-clear-btn">مسح البحث</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3 id="total-hotel-bookings">إجمالي حجوزات الفنادق</h3>
+                        <div class="value" id="totalHotelBookingsCount">0</div>
+                        <div class="sub-value">حجز</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-hotel-amount">إجمالي المبالغ</h3>
+                        <div class="value" id="totalHotelAmount">0</div>
+                        <div class="sub-value" id="hotelAmountCurrency">MYR</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-hotel-refunds">إجمالي المستردات</h3>
+                        <div class="value" id="totalHotelRefunds">0</div>
+                        <div class="sub-value" id="hotelRefundsCurrency">MYR</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-hotel-net">إجمالي الصافي</h3>
+                        <div class="value" id="totalHotelNet">0</div>
+                        <div class="sub-value" id="hotelNetCurrency">MYR</div>
+                    </div>
+                </div>
+                
+                <div id="hotel-bookings-table-container">
+                    <h3 class="section-title" id="hotel-bookings-title">سجل حجوزات الفنادق</h3>
+                    <div class="table-responsive">
+                        <table id="hotelBookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>TBOH CONFIRMATION NO.</th>
+                                    <th>HOTEL NAME</th>
+                                    <th>HOTEL CITY</th>
+                                    <th>HOTEL COUNTRY</th>
+                                    <th>CHECK-IN DATE</th>
+                                    <th>Arrival Time</th>
+                                    <th>CHECK-OUT DATE</th>
+                                    <th>LAST CANCELLATION DATE</th>
+                                    <th>NO. OF ROOMS</th>
+                                    <th>TOTAL AMOUNT1</th>
+                                    <th>Currency 1</th>
+                                    <th>Currency 2</th>
+                                    <th>TOTAL AMOUNT2</th>
+                                    <th>CANCELLATION FEE(MYR)</th>
+                                    <th>REFUND AMOUNT(MYR)</th>
+                                    <th>REFUND STATUS</th>
+                                    <th>NET AMOUNT (MYR)</th>
+                                    <th>ROOM CATEGORY</th>
+                                    <th>NET OF AMOUNT</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hotelBookingsTableBody">
+                                <!-- سيتم ملء البيانات هنا ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="export-buttons">
+                    <button class="btn btn-success" onclick="exportHotelBookingsToExcel()" id="export-hotel-excel-btn">تصدير إلى Excel</button>
+                    <button class="btn btn-info" onclick="printHotelBookings()" id="print-hotel-btn">طباعة التقرير</button>
+                    <button class="btn btn-warning" onclick="showHotelAlarms()" id="hotel-alarms-btn">عرض التنبيهات</button>
+                </div>
+            </section>
+            
+            <!-- قسم حجوزات الطيران -->
+            <section class="data-section hidden" id="flight-bookings-section">
+                <!-- المحتوى السابق لحجوزات الطيران -->
+                <div class="search-filter">
+                    <h3 id="flight-search-title">بحث وتصفية حجوزات الطيران</h3>
+                    <div class="search-row">
+                        <div class="form-group">
+                            <label for="flightSearchInput">بحث:</label>
+                            <input type="text" id="flightSearchInput" placeholder="ابحث باسم العميل أو كود العميل...">
+                        </div>
+                        <div class="form-group">
+                            <label for="flightStatusFilter">حالة الحجز:</label>
+                            <select id="flightStatusFilter">
+                                <option value="all">جميع الحالات</option>
+                                <option value="Active">نشط (Active)</option>
+                                <option value="Cancelled">ملغي (Cancelled)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-info" onclick="searchFlightBookings()" id="flight-search-btn">بحث</button>
+                            <button class="btn btn-secondary" onclick="clearFlightSearch()" id="flight-clear-btn">مسح البحث</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3 id="total-flight-bookings">إجمالي حجوزات الطيران</h3>
+                        <div class="value" id="totalFlightBookingsCount">0</div>
+                        <div class="sub-value">حجز</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-flight-sales">إجمالي المبيعات</h3>
+                        <div class="value" id="totalFlightSales">0</div>
+                        <div class="sub-value" id="flightSalesCurrency">SAR</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="cancelled-flights">حجوزات ملغية</h3>
+                        <div class="value" id="cancelledFlightBookings">0</div>
+                        <div class="sub-value">حجز</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-flight-refunds">إجمالي المستردات</h3>
+                        <div class="value" id="totalFlightRefunds">0</div>
+                        <div class="sub-value" id="flightRefundsCurrency">SAR</div>
+                    </div>
+                </div>
+                
+                <div id="flight-bookings-table-container">
+                    <h3 class="section-title" id="flight-bookings-title">سجل حجوزات الطيران</h3>
+                    <div class="table-responsive">
+                        <table id="flightBookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>كود العميل</th>
+                                    <th>اسم العميل</th>
+                                    <th>من</th>
+                                    <th>إلى</th>
+                                    <th>عدد المسافرين</th>
+                                    <th>تاريخ الذهاب</th>
+                                    <th>تاريخ العودة</th>
+                                    <th>سعر بيع التذكرة</th>
+                                    <th>سعر الحجز</th>
+                                    <th>رقم التأكيد</th>
+                                    <th>حجز من</th>
+                                    <th>الدفع من</th>
+                                    <th>تاريخ الاستحقاق</th>
+                                    <th>حالة الحجز</th>
+                                    <th>رسوم الإلغاء</th>
+                                    <th>استرداد العميل</th>
+                                    <th>سعر الحجز بعد الإلغاء</th>
+                                    <th>السعر بعد التحويل</th>
+                                    <th>ملاحظات</th>
+                                    <th>مبلغ الاسترداد بعد التحويل</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="flightBookingsTableBody">
+                                <!-- سيتم ملء البيانات هنا ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="export-buttons">
+                    <button class="btn btn-success" onclick="exportFlightBookingsToExcel()" id="export-flight-excel-btn">تصدير إلى Excel</button>
+                    <button class="btn btn-info" onclick="printFlightBookings()" id="print-flight-btn">طباعة التقرير</button>
+                    <button class="btn btn-warning" onclick="showFlightAlarms()" id="flight-alarms-btn">عرض التنبيهات</button>
+                </div>
+            </section>
+            
+            <!-- قسم الجوالات السياحية -->
+            <section class="data-section hidden" id="tour-bookings-section">
+                <div class="search-filter">
+                    <h3 id="tour-search-title">بحث وتصفية الجوالات السياحية</h3>
+                    <div class="search-row">
+                        <div class="form-group">
+                            <label for="tourSearchInput">بحث:</label>
+                            <input type="text" id="tourSearchInput" placeholder="ابحث باسم العميل أو كود العميل...">
+                        </div>
+                        <div class="form-group">
+                            <label for="tourStatusFilter">حالة الحجز:</label>
+                            <select id="tourStatusFilter">
+                                <option value="all">جميع الحالات</option>
+                                <option value="Active">نشط (Active)</option>
+                                <option value="Cancelled">ملغي (Cancelled)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-info" onclick="searchTourBookings()" id="tour-search-btn">بحث</button>
+                            <button class="btn btn-secondary" onclick="clearTourSearch()" id="tour-clear-btn">مسح البحث</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3 id="total-tour-bookings">إجمالي الجوالات السياحية</h3>
+                        <div class="value" id="totalTourBookingsCount">0</div>
+                        <div class="sub-value">جوالة</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-tour-cost">إجمالي تكاليف الجوالات</h3>
+                        <div class="value" id="totalTourCost">0</div>
+                        <div class="sub-value" id="tourCostCurrency">SAR</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="cancelled-tours">جوالات ملغية</h3>
+                        <div class="value" id="cancelledTourBookings">0</div>
+                        <div class="sub-value">جوالة</div>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-tour-refunds">إجمالي المستردات</h3>
+                        <div class="value" id="totalTourRefunds">0</div>
+                        <div class="sub-value" id="tourRefundsCurrency">SAR</div>
+                    </div>
+                </div>
+                
+                <div id="tour-bookings-table-container">
+                    <h3 class="section-title" id="tour-bookings-title">سجل الجوالات السياحية</h3>
+                    <div class="table-responsive">
+                        <table id="tourBookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>كود العميل</th>
+                                    <th>اسم العميل</th>
+                                    <th>التاريخ</th>
+                                    <th>الوجهة</th>
+                                    <th>المزود</th>
+                                    <th>اسم الجوالة</th>
+                                    <th>تكلفة الجوالة</th>
+                                    <th>العملة</th>
+                                    <th>سعر الحجز</th>
+                                    <th>رقم التأكيد</th>
+                                    <th>حجز من</th>
+                                    <th>الدفع من</th>
+                                    <th>تاريخ الاستحقاق</th>
+                                    <th>حالة الحجز</th>
+                                    <th>رسوم الإلغاء</th>
+                                    <th>استرداد العميل</th>
+                                    <th>سعر الحجز بعد الإلغاء</th>
+                                    <th>السعر بعد التحويل</th>
+                                    <th>ملاحظات</th>
+                                    <th>مبلغ الاسترداد بعد التحويل</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tourBookingsTableBody">
+                                <!-- سيتم ملء البيانات هنا ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="export-buttons">
+                    <button class="btn btn-success" onclick="exportTourBookingsToExcel()" id="export-tour-excel-btn">تصدير إلى Excel</button>
+                    <button class="btn btn-info" onclick="printTourBookings()" id="print-tour-btn">طباعة التقرير</button>
+                    <button class="btn btn-warning" onclick="showTourAlarms()" id="tour-alarms-btn">عرض التنبيهات</button>
+                </div>
+            </section>
+            
+            <!-- قسم التقارير المالية -->
+            <section class="data-section hidden" id="financial-section">
+                <h2 class="section-title" id="financial-report-title">التقارير المالية الشاملة</h2>
+                
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>إجمالي إيرادات العملاء</h3>
+                        <div class="value" id="financialClientRevenue">0</div>
+                        <div class="sub-value">من حجوزات العملاء</div>
+                    </div>
+                    <div class="card">
+                        <h3>إجمالي إيرادات الفنادق</h3>
+                        <div class="value" id="financialHotelRevenue">0</div>
+                        <div class="sub-value">من حجوزات الفنادق</div>
+                    </div>
+                    <div class="card">
+                        <h3>إجمالي إيرادات الطيران</h3>
+                        <div class="value" id="financialFlightRevenue">0</div>
+                        <div class="sub-value">من حجوزات الطيران</div>
+                    </div>
+                    <div class="card">
+                        <h3>إجمالي إيرادات الجوالات</h3>
+                        <div class="value" id="financialTourRevenue">0</div>
+                        <div class="sub-value">من الجوالات السياحية</div>
+                    </div>
+                </div>
+                
+                <div id="financial-table-container">
+                    <h3 class="section-title">ملخص الحجوزات المالية</h3>
+                    <div class="table-responsive">
+                        <table id="financialTable">
+                            <thead>
+                                <tr>
+                                    <th>نوع الحجز</th>
+                                    <th>العميل/الفندق</th>
+                                    <th>الكود</th>
+                                    <th>التكلفة/المبلغ 1</th>
+                                    <th>الربح/المبلغ 2</th>
+                                    <th>الإجمالي</th>
+                                    <th>المدفوع</th>
+                                    <th>المتبقي</th>
+                                    <th>العملة</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="financialTableBody">
+                                <!-- سيتم ملء البيانات هنا ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="buttons-row">
+                    <button class="btn btn-success" onclick="exportFinancialReport()">تصدير التقرير المالي</button>
+                    <button class="btn btn-info" onclick="printFinancialReport()">طباعة التقرير</button>
+                    <button class="btn btn-purple" onclick="generateRevenueChart()">عرض مخطط الإيرادات</button>
+                </div>
+            </section>
+            
+            <!-- قسم التنبيهات -->
+            <section class="data-section hidden" id="alarms-section">
+                <h2 class="section-title" id="alarms-title">التنبيهات والمتابعات</h2>
+                
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>التنبيهات القريبة</h3>
+                        <div class="value" id="nearAlarmsCount">0</div>
+                        <div class="sub-value">في الـ 7 أيام القادمة</div>
+                    </div>
+                    <div class="card">
+                        <h3>المستحقات المتأخرة</h3>
+                        <div class="value" id="latePaymentsCount">0</div>
+                        <div class="sub-value">دفعات متأخرة</div>
+                    </div>
+                    <div class="card">
+                        <h3>الجوالات السياحية</h3>
+                        <div class="value" id="tourAlarmsCount">0</div>
+                        <div class="sub-value">تتطلب متابعة</div>
+                    </div>
+                    <div class="card">
+                        <h3>حجوزات الطيران</h3>
+                        <div class="value" id="flightAlarmsCount">0</div>
+                        <div class="sub-value">تتطلب متابعة</div>
+                    </div>
+                </div>
+                
+                <div id="alarms-table-container">
+                    <h3 class="section-title">قائمة التنبيهات</h3>
+                    <div class="table-responsive">
+                        <table id="alarmsTable">
+                            <thead>
+                                <tr>
+                                    <th>نوع التنبيه</th>
+                                    <th>العميل/الفندق</th>
+                                    <th>الكود</th>
+                                    <th>التاريخ</th>
+                                    <th>الأهمية</th>
+                                    <th>الحالة</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="alarmsTableBody">
+                                <!-- سيتم ملء البيانات هنا ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="buttons-row">
+                    <button class="btn btn-warning" onclick="markAllAlarmsAsRead()">تعليم الكل كمقروء</button>
+                    <button class="btn btn-info" onclick="refreshAlarms()">تحديث التنبيهات</button>
+                    <button class="btn btn-success" onclick="sendAlarmReminders()">إرسال تذكيرات</button>
+                </div>
+                
+                <!-- قسم النسخ الاحتياطي -->
+                <div class="section-divider"></div>
+                <h3 class="section-title">النسخ الاحتياطي للبيانات</h3>
+                <div class="alert-notification">
+                    <i>⚠️</i>
+                    <span>يتم حفظ النسخ الاحتياطية محلياً على جهازك. يرجى تنزيل نسخة احتياطية بشكل دوري.</span>
+                </div>
+                <div class="buttons-row">
+                    <button class="btn btn-success" onclick="saveBackupToLocalStorage()">حفظ نسخة احتياطية محلية</button>
+                    <button class="btn btn-warning" onclick="restoreBackupFromLocalStorage()">استعادة من النسخة المحلية</button>
+                    <button class="btn btn-info" onclick="downloadBackupFile()">تنزيل نسخة احتياطية كملف</button>
+                    <button class="btn btn-secondary" onclick="uploadBackupFile()">تحميل نسخة احتياطية من ملف</button>
+                </div>
+                <input type="file" id="backupFileInput" accept=".json" style="display: none;" onchange="handleBackupFileUpload(event)">
+            </section>
+        </div>
+    </div>
+
+    <!-- مكتبة SheetJS لتصدير Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    
+    <script>
+        // بيانات الحجوزات
+        let clientBookings = [];
+        let hotelBookings = [];
+        let flightBookings = [];
+        let tourBookings = [];
+        
+        // تحميل البيانات عند بدء التشغيل
+        document.addEventListener('DOMContentLoaded', function() {
+            // تعيين التواريخ الافتراضية لحجز العميل
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const nextWeek = new Date(today);
+            nextWeek.setDate(today.getDate() + 7);
+            
+            // تعيين التواريخ في نموذج حجز العميل
+            document.getElementById('bookingDate').value = formatDate(today);
+            document.getElementById('arrivalDate').value = formatDate(nextWeek);
+            document.getElementById('paymentDate').value = formatDate(today);
+            document.getElementById('alarmDate').value = formatDate(tomorrow);
+            
+            // توليد كود عميل تلقائي
+            document.getElementById('clientCode').value = generateClientCode();
+            
+            // تعيين التواريخ الافتراضية لحجز الفندق
+            document.getElementById('hotelCheckInDate').value = formatDate(nextWeek);
+            document.getElementById('hotelCheckOutDate').value = formatDate(new Date(nextWeek.getTime() + 5 * 24 * 60 * 60 * 1000));
+            document.getElementById('lastCancellationDate').value = formatDate(new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000));
+            
+            // توليد TBOH Confirmation No تلقائي
+            document.getElementById('tbohConfirmationNo').value = generateTBOHCode();
+            
+            // تعيين التواريخ الافتراضية لحجز الطيران
+            document.getElementById('flightClientCode').value = generateFlightCode();
+            document.getElementById('dateGo').value = formatDate(nextWeek);
+            document.getElementById('dateBack').value = formatDate(new Date(nextWeek.getTime() + 7 * 24 * 60 * 60 * 1000));
+            document.getElementById('dueDate').value = formatDate(tomorrow);
+            
+            // توليد رقم تأكيد تلقائي
+            document.getElementById('confirmationNo').value = generateFlightConfirmationNo();
+            
+            // تعيين التواريخ الافتراضية للجوالة السياحية
+            document.getElementById('tourClientCode').value = generateTourCode();
+            document.getElementById('tourDate').value = formatDate(nextWeek);
+            document.getElementById('tourDueDate').value = formatDate(tomorrow);
+            
+            // توليد رقم تأكيد تلقائي للجوالة
+            document.getElementById('tourConfirmationNo').value = generateTourConfirmationNo();
+            
+            // إضافة بعض البيانات الافتراضية للاختبار
+            addSampleData();
+            
+            // عرض البيانات
+            displayClientBookings();
+            displayHotelBookings();
+            displayFlightBookings();
+            displayTourBookings();
+            updateSummary();
+            updateFinancialSummary();
+            checkAlarms();
+            
+            // عرض علامة التبويب الأولى
+            switchTab('new-booking');
+            
+            // حساب الرصيد الأولي
+            calculateClientBalance();
+            calculateHotelNetAmount();
+            calculateFlightRefund();
+            calculateTourRefund();
+            
+            // تحديث الملخص المالي
+            updateClientFinancialSummaryDisplay();
+            updateHotelFinancialSummaryDisplay();
+            updateFlightFinancialSummaryDisplay();
+            updateTourFinancialSummaryDisplay();
+            
+            // إضافة مستمعين للأحداث
+            setupEventListeners();
+        });
+        
+        // توليد كود عميل تلقائي
+        function generateClientCode() {
+            const year = new Date().getFullYear();
+            const month = String(new Date().getMonth() + 1).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `CLT-${year}${month}-${random}`;
+        }
+        
+        // توليد TBOH Confirmation No تلقائي
+        function generateTBOHCode() {
+            const year = new Date().getFullYear();
+            const month = String(new Date().getMonth() + 1).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `TBOH-${year}${month}-${random}`;
+        }
+        
+        // توليد كود طيران تلقائي
+        function generateFlightCode() {
+            const year = new Date().getFullYear();
+            const month = String(new Date().getMonth() + 1).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `FLT-${year}${month}-${random}`;
+        }
+        
+        // توليد رقم تأكيد طيران تلقائي
+        function generateFlightConfirmationNo() {
+            const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+            return `FLT-${random}`;
+        }
+        
+        // توليد كود جوالة تلقائي
+        function generateTourCode() {
+            const year = new Date().getFullYear();
+            const month = String(new Date().getMonth() + 1).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `TOUR-${year}${month}-${random}`;
+        }
+        
+        // توليد رقم تأكيد جوالة تلقائي
+        function generateTourConfirmationNo() {
+            const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+            return `TOUR-${random}`;
+        }
+        
+        // إعداد مستمعين للأحداث
+        function setupEventListeners() {
+            // تحديث الملخص المالي للجوالات
+            document.getElementById('tourCost').addEventListener('input', updateTourFinancialSummaryDisplay);
+            document.getElementById('tourBookingRate').addEventListener('input', updateTourFinancialSummaryDisplay);
+            document.getElementById('tourCancellationCharge').addEventListener('input', updateTourFinancialSummaryDisplay);
+            document.getElementById('tourClientRefund').addEventListener('input', updateTourFinancialSummaryDisplay);
+            document.getElementById('tourRateAfterCancellation').addEventListener('input', updateTourFinancialSummaryDisplay);
+            document.getElementById('tourRefundCurrency').addEventListener('change', updateTourFinancialSummaryDisplay);
+            
+            // عند تغيير حالة الحجز، إعادة حساب الاسترداد
+            document.getElementById('tourStatus').addEventListener('change', calculateTourRefund);
+        }
+        
+        // إضافة بيانات تجريبية
+        function addSampleData() {
+            // بيانات تجريبية لحجوزات العملاء
+            const sampleClientBookings = [
+                {
+                    id: 1,
+                    bookingDate: '2026-01-05',
+                    arrivalDate: '2026-02-10',
+                    clientName: 'أحمد محمد',
+                    clientPhone: '+966501234567',
+                    clientCode: 'CLT-202601-001',
+                    agentName: 'علي حسين',
+                    travelFrom: 'الرياض',
+                    travelTo: 'دبي',
+                    cost: 5000.00,
+                    profit: 1500.00,
+                    finalPackageRate: 6500.00,
+                    amountPaid: 3000.00,
+                    currency: 'SAR',
+                    paymentCode: 'PAY001',
+                    balance: 3500.00,
+                    paymentDate: '2026-01-05',
+                    packageType: 'سياحة',
+                    confirmedBy: 'محمد أحمد',
+                    packageStatus: 'مؤكد',
+                    bankName: 'البنك الأهلي',
+                    bankRef: 'REF2026001',
+                    notes: 'الحجز يشمل تذاكر طيران وفندق 5 نجوم',
+                    alarmDate: '2026-01-20'
+                },
+                {
+                    id: 2,
+                    bookingDate: '2026-01-10',
+                    arrivalDate: '2026-03-15',
+                    clientName: 'سارة عبدالله',
+                    clientPhone: '+966502345678',
+                    clientCode: 'CLT-202601-002',
+                    agentName: 'فاطمة خالد',
+                    travelFrom: 'جدة',
+                    travelTo: 'اسطنبول',
+                    cost: 8000.00,
+                    profit: 2500.00,
+                    finalPackageRate: 10500.00,
+                    amountPaid: 10500.00,
+                    currency: 'SAR',
+                    paymentCode: 'PAY002',
+                    balance: 0.00,
+                    paymentDate: '2026-01-10',
+                    packageType: 'علاج',
+                    confirmedBy: 'خالد محمد',
+                    packageStatus: 'مكتمل',
+                    bankName: 'الراجحي',
+                    bankRef: 'REF2026002',
+                    notes: 'حجز علاجي شامل',
+                    alarmDate: '2026-01-25'
+                }
+            ];
+            
+            // بيانات تجريبية لحجوزات الفنادق
+            const sampleHotelBookings = [
+                {
+                    id: 1,
+                    tbohConfirmationNo: 'TBOH-202601-001',
+                    hotelName: 'فندق الرياض الدولي',
+                    hotelCity: 'الرياض',
+                    hotelCountry: 'السعودية',
+                    checkInDate: '2026-01-10',
+                    arrivalTime: '14:00',
+                    checkOutDate: '2026-01-15',
+                    lastCancellationDate: '2026-01-05',
+                    noOfRooms: 2,
+                    totalAmount1: 1500.00,
+                    currency1: 'USD',
+                    currency2: 'MYR',
+                    totalAmount2: 6300.00,
+                    cancellationFee: 315.00,
+                    refundAmount: 5985.00,
+                    refundStatus: 'Pending',
+                    netAmount: 5985.00,
+                    roomCategory: 'Deluxe',
+                    netOfAmount: 'حجز شامل مع إفطار'
+                },
+                {
+                    id: 2,
+                    tbohConfirmationNo: 'TBOH-202601-002',
+                    hotelName: 'فندق جدة ماريوت',
+                    hotelCity: 'جدة',
+                    hotelCountry: 'السعودية',
+                    checkInDate: '2026-02-01',
+                    arrivalTime: '16:00',
+                    checkOutDate: '2026-02-05',
+                    lastCancellationDate: '2026-01-25',
+                    noOfRooms: 1,
+                    totalAmount1: 800.00,
+                    currency1: 'USD',
+                    currency2: 'MYR',
+                    totalAmount2: 3360.00,
+                    cancellationFee: 168.00,
+                    refundAmount: 3192.00,
+                    refundStatus: 'Confirmed',
+                    netAmount: 3192.00,
+                    roomCategory: 'Standard',
+                    netOfAmount: 'حجز قياسي'
+                }
+            ];
+            
+            // بيانات تجريبية لحجوزات الطيران
+            const sampleFlightBookings = [
+                {
+                    id: 1,
+                    clientCode: 'FLT-202601-001',
+                    clientName: 'محمد العلي',
+                    flyFrom: 'الرياض',
+                    flyTo: 'دبي',
+                    paxNumber: 2,
+                    dateGo: '2026-02-15',
+                    dateBack: '2026-02-20',
+                    flightSellingRate: 1200.00,
+                    bookingRate: 1000.00,
+                    confirmationNo: 'FLT-123456',
+                    bookedFrom: 'موقع الطيران',
+                    chargeFrom: 'بطاقة ائتمان',
+                    dueDate: '2026-02-01',
+                    bookingStatus: 'Active',
+                    cancellationCharge: 0.00,
+                    clientRefund: 0.00,
+                    rateAfterCancellation: 0.00,
+                    rateAfterConversion: 1000.00,
+                    refundCurrency: 'SAR',
+                    refundAmountAfterConversion: 0.00,
+                    note: 'حجز ذهاب وعودة'
+                },
+                {
+                    id: 2,
+                    clientCode: 'FLT-202601-002',
+                    clientName: 'نورة السعد',
+                    flyFrom: 'جدة',
+                    flyTo: 'القاهرة',
+                    paxNumber: 1,
+                    dateGo: '2026-03-10',
+                    dateBack: '2026-03-15',
+                    flightSellingRate: 800.00,
+                    bookingRate: 700.00,
+                    confirmationNo: 'FLT-234567',
+                    bookedFrom: 'مكتب السفر',
+                    chargeFrom: 'تحويل بنكي',
+                    dueDate: '2026-02-25',
+                    bookingStatus: 'Cancelled',
+                    cancellationCharge: 100.00,
+                    clientRefund: 600.00,
+                    rateAfterCancellation: 100.00,
+                    rateAfterConversion: 100.00,
+                    refundCurrency: 'SAR',
+                    refundAmountAfterConversion: 600.00,
+                    note: 'تم الإلغاء بناء على طلب العميل'
+                }
+            ];
+            
+            // بيانات تجريبية للجوالات السياحية
+            const sampleTourBookings = [
+                {
+                    id: 1,
+                    clientCode: 'TOUR-202601-001',
+                    clientName: 'خالد الفهد',
+                    date: '2026-02-10',
+                    destination: 'البحر الميت',
+                    supplier: 'شركة السياحة الوطنية',
+                    tour: 'جولة البحر الميت العلاجية',
+                    cost: 500.00,
+                    currency: 'SAR',
+                    bookingRate: 450.00,
+                    confirmationNo: 'TOUR-123456',
+                    bookedFrom: 'موقع الشركة',
+                    chargeFrom: 'بطاقة ائتمان',
+                    dueDate: '2026-01-25',
+                    status: 'Active',
+                    cancellationCharge: 0.00,
+                    clientRefund: 0.00,
+                    rateAfterCancellation: 0.00,
+                    rateAfterConversion: 450.00,
+                    note: 'جولة علاجية شاملة',
+                    refundAmountAfterConversion: 0.00
+                },
+                {
+                    id: 2,
+                    clientCode: 'TOUR-202601-002',
+                    clientName: 'لطيفة الناصر',
+                    date: '2026-03-05',
+                    destination: 'الباحة',
+                    supplier: 'السياحة الجبلية',
+                    tour: 'جولة الباحة الجبلية',
+                    cost: 300.00,
+                    currency: 'SAR',
+                    bookingRate: 280.00,
+                    confirmationNo: 'TOUR-234567',
+                    bookedFrom: 'مكتب السياحة',
+                    chargeFrom: 'نقدي',
+                    dueDate: '2026-02-20',
+                    status: 'Cancelled',
+                    cancellationCharge: 50.00,
+                    clientRefund: 230.00,
+                    rateAfterCancellation: 50.00,
+                    rateAfterConversion: 50.00,
+                    note: 'تم الإلغاء بسبب الظروف الجوية',
+                    refundAmountAfterConversion: 230.00
+                }
+            ];
+            
+            clientBookings = sampleClientBookings;
+            hotelBookings = sampleHotelBookings;
+            flightBookings = sampleFlightBookings;
+            tourBookings = sampleTourBookings;
+        }
+        
+        // ========== وظائف حجز العميل ==========
+        
+        // إضافة حجز عميل جديد
+        function addClientBooking() {
+            // التحقق من الحقول المطلوبة
+            if (!validateClientForm()) {
+                return;
+            }
+            
+            // الحصول على البيانات من النموذج
+            const bookingDate = document.getElementById('bookingDate').value;
+            const arrivalDate = document.getElementById('arrivalDate').value;
+            const clientName = document.getElementById('clientName').value;
+            const clientPhone = document.getElementById('clientPhone').value;
+            const clientCode = document.getElementById('clientCode').value || generateClientCode();
+            const agentName = document.getElementById('agentName').value;
+            const travelFrom = document.getElementById('travelFrom').value;
+            const travelTo = document.getElementById('travelTo').value;
+            const cost = parseFloat(document.getElementById('cost').value) || 0;
+            const profit = parseFloat(document.getElementById('profit').value) || 0;
+            const finalPackageRate = parseFloat(document.getElementById('finalPackageRate').value) || 0;
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+            const currency = document.getElementById('clientCurrency').value;
+            const balance = parseFloat(document.getElementById('balance').value) || 0;
+            const paymentCode = document.getElementById('paymentCode').value;
+            const paymentDate = document.getElementById('paymentDate').value;
+            const bankName = document.getElementById('bankName').value;
+            const bankRef = document.getElementById('bankRef').value;
+            const packageType = document.getElementById('packageType').value;
+            const confirmedBy = document.getElementById('confirmedBy').value;
+            const packageStatus = document.getElementById('packageStatus').value;
+            const alarmDate = document.getElementById('alarmDate').value;
+            const notes = document.getElementById('clientNotes').value;
+            
+            // إنشاء كائن الحجز الجديد
+            const newBooking = {
+                id: clientBookings.length > 0 ? Math.max(...clientBookings.map(b => b.id)) + 1 : 1,
+                bookingDate,
+                arrivalDate,
+                clientName,
+                clientPhone,
+                clientCode,
+                agentName,
+                travelFrom,
+                travelTo,
+                cost,
+                profit,
+                finalPackageRate,
+                amountPaid,
+                currency,
+                balance,
+                paymentCode,
+                paymentDate,
+                bankName,
+                bankRef,
+                packageType,
+                confirmedBy,
+                packageStatus,
+                alarmDate,
+                notes
+            };
+            
+            // إضافة الحجز إلى المصفوفة
+            clientBookings.push(newBooking);
+            
+            // تحديث العرض
+            displayClientBookings();
+            updateSummary();
+            updateFinancialSummary();
+            checkAlarms();
+            
+            // إظهار رسالة نجاح
+            alert(`تم إضافة حجز العميل بنجاح! كود الحجز: ${clientCode}`);
+            
+            // تبديل إلى علامة التبويب "حجوزات العملاء"
+            switchTab('client-bookings');
+            
+            // إعادة تعيين النموذج
+            resetClientForm();
+        }
+        
+        // التحقق من صحة نموذج حجز العميل
+        function validateClientForm() {
+            const clientName = document.getElementById('clientName').value;
+            
+            if (!clientName || clientName.trim() === '') {
+                alert('يرجى إدخال اسم العميل');
+                document.getElementById('clientName').focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // حساب رصيد العميل تلقائياً
+        function calculateClientBalance() {
+            const finalPackageRate = parseFloat(document.getElementById('finalPackageRate').value) || 0;
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+            
+            const balance = finalPackageRate - amountPaid;
+            
+            // تحديث حقل الرصيد
+            document.getElementById('balance').value = balance.toFixed(2);
+            
+            // تحديث الملخص المالي
+            updateClientFinancialSummaryDisplay();
+            
+            return balance;
+        }
+        
+        // تحديث عرض الملخص المالي لحجز العميل
+        function updateClientFinancialSummaryDisplay() {
+            const finalPackageRate = parseFloat(document.getElementById('finalPackageRate').value) || 0;
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value) || 0;
+            const balance = parseFloat(document.getElementById('balance').value) || 0;
+            const currency = document.getElementById('clientCurrency').value;
+            
+            document.getElementById('clientSummaryTotal').textContent = finalPackageRate.toFixed(2);
+            document.getElementById('clientSummaryCurrency').textContent = currency;
+            document.getElementById('clientSummaryCurrency2').textContent = currency;
+            document.getElementById('clientSummaryCurrency3').textContent = currency;
+            document.getElementById('clientSummaryPaid').textContent = amountPaid.toFixed(2);
+            document.getElementById('clientSummaryBalance').textContent = balance.toFixed(2);
+        }
+        
+        // مسح نموذج حجز العميل
+        function resetClientForm() {
+            // تعيين التواريخ الافتراضية
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const nextWeek = new Date(today);
+            nextWeek.setDate(today.getDate() + 7);
+            
+            document.getElementById('bookingDate').value = formatDate(today);
+            document.getElementById('arrivalDate').value = formatDate(nextWeek);
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('clientCode').value = generateClientCode();
+            document.getElementById('agentName').value = '';
+            document.getElementById('travelFrom').value = '';
+            document.getElementById('travelTo').value = '';
+            document.getElementById('cost').value = '0.00';
+            document.getElementById('profit').value = '0.00';
+            document.getElementById('finalPackageRate').value = '0.00';
+            document.getElementById('amountPaid').value = '0.00';
+            document.getElementById('clientCurrency').value = 'USD';
+            document.getElementById('balance').value = '0.00';
+            document.getElementById('paymentCode').value = '';
+            document.getElementById('paymentDate').value = formatDate(today);
+            document.getElementById('bankName').value = '';
+            document.getElementById('bankRef').value = '';
+            document.getElementById('packageType').value = '';
+            document.getElementById('confirmedBy').value = '';
+            document.getElementById('packageStatus').value = 'مؤكد';
+            document.getElementById('alarmDate').value = formatDate(tomorrow);
+            document.getElementById('clientNotes').value = '';
+            
+            // تحديث الملخص المالي
+            updateClientFinancialSummaryDisplay();
+        }
+        
+        // عرض حجوزات العملاء في الجدول
+        function displayClientBookings(filteredBookings = null) {
+            const tableBody = document.getElementById('clientBookingsTableBody');
+            const dataToDisplay = filteredBookings || clientBookings;
+            
+            tableBody.innerHTML = '';
+            
+            dataToDisplay.forEach((booking, index) => {
+                const row = document.createElement('tr');
+                
+                // تنسيق حالة الحجز
+                let statusClass = '';
+                let statusText = booking.packageStatus;
+                
+                switch(booking.packageStatus) {
+                    case 'مؤكد':
+                        statusClass = 'status-confirmed';
+                        break;
+                    case 'معلق':
+                        statusClass = 'status-pending';
+                        break;
+                    case 'ملغي':
+                        statusClass = 'status-cancelled';
+                        break;
+                    case 'مكتمل':
+                        statusClass = 'status-confirmed';
+                        break;
+                }
+                
+                // التحقق من وجود تنبيه
+                const today = new Date();
+                const alarmDate = new Date(booking.alarmDate);
+                const daysDiff = Math.ceil((alarmDate - today) / (1000 * 60 * 60 * 24));
+                
+                let alarmIndicator = '';
+                if (daysDiff <= 7 && daysDiff >= 0 && booking.packageStatus !== 'ملغي') {
+                    alarmIndicator = `<span class="alarm-indicator">${daysDiff} يوم</span>`;
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${formatDisplayDate(booking.bookingDate)}</td>
+                    <td><strong>${booking.clientName}</strong></td>
+                    <td><strong>${booking.clientCode}</strong></td>
+                    <td>${booking.agentName}</td>
+                    <td>${booking.travelFrom} → ${booking.travelTo}</td>
+                    <td>${booking.packageType || '-'}</td>
+                    <td>${booking.finalPackageRate.toFixed(2)} ${booking.currency}</td>
+                    <td>${booking.amountPaid.toFixed(2)} ${booking.currency}</td>
+                    <td>${booking.balance.toFixed(2)} ${booking.currency}</td>
+                    <td><span class="${statusClass}">${statusText}</span></td>
+                    <td>${formatDisplayDate(booking.alarmDate)} ${alarmIndicator}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteClientBooking(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">حذف</button>
+                        <button class="btn btn-info btn-sm" onclick="editClientBooking(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">تعديل</button>
+                        <button class="btn btn-success btn-sm" onclick="viewClientBookingDetails(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">تفاصيل</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // حذف حجز عميل
+        function deleteClientBooking(bookingId) {
+            if (!confirm("هل أنت متأكد من حذف هذا الحجز؟")) return;
+            
+            // حذف من المصفوفة
+            clientBookings = clientBookings.filter(booking => booking.id !== bookingId);
+            
+            // تحديث العرض
+            displayClientBookings();
+            updateSummary();
+            updateFinancialSummary();
+            
+            alert("تم حذف الحجز بنجاح!");
+        }
+        
+        // البحث في حجوزات العملاء
+        function searchClientBookings() {
+            const searchTerm = document.getElementById('clientSearchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('clientStatusFilter').value;
+            
+            let filteredBookings = clientBookings;
+            
+            // تطبيق البحث النصي
+            if (searchTerm) {
+                filteredBookings = filteredBookings.filter(booking => 
+                    booking.clientName.toLowerCase().includes(searchTerm) ||
+                    booking.clientCode.toLowerCase().includes(searchTerm) ||
+                    booking.agentName.toLowerCase().includes(searchTerm) ||
+                    booking.travelFrom.toLowerCase().includes(searchTerm) ||
+                    booking.travelTo.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // تطبيق تصفية الحالة
+            if (statusFilter !== 'all') {
+                filteredBookings = filteredBookings.filter(booking => booking.packageStatus === statusFilter);
+            }
+            
+            // عرض النتائج
+            displayClientBookings(filteredBookings);
+        }
+        
+        // ========== وظائف حجز الفندق ==========
+        
+        // إضافة حجز فندق جديد
+        function addHotelBooking() {
+            // التحقق من الحقول المطلوبة
+            if (!validateHotelForm()) {
+                return;
+            }
+            
+            // الحصول على البيانات من النموذج
+            const tbohConfirmationNo = document.getElementById('tbohConfirmationNo').value || generateTBOHCode();
+            const hotelName = document.getElementById('hotelName').value;
+            const hotelCity = document.getElementById('hotelCity').value;
+            const hotelCountry = document.getElementById('hotelCountry').value;
+            const checkInDate = document.getElementById('hotelCheckInDate').value;
+            const arrivalTime = document.getElementById('arrivalTime').value;
+            const checkOutDate = document.getElementById('hotelCheckOutDate').value;
+            const lastCancellationDate = document.getElementById('lastCancellationDate').value;
+            const noOfRooms = parseInt(document.getElementById('noOfRooms').value) || 1;
+            const totalAmount1 = parseFloat(document.getElementById('totalAmount1').value) || 0;
+            const currency1 = document.getElementById('currency1').value;
+            const currency2 = document.getElementById('currency2').value;
+            const totalAmount2 = parseFloat(document.getElementById('totalAmount2').value) || 0;
+            const cancellationFee = parseFloat(document.getElementById('cancellationFee').value) || 0;
+            const refundAmount = parseFloat(document.getElementById('refundAmount').value) || 0;
+            const refundStatus = document.getElementById('refundStatus').value;
+            const netAmount = parseFloat(document.getElementById('netAmount').value) || 0;
+            const roomCategory = document.getElementById('roomCategory').value;
+            const netOfAmount = document.getElementById('netOfAmount').value;
+            
+            // إنشاء كائن الحجز الجديد
+            const newBooking = {
+                id: hotelBookings.length > 0 ? Math.max(...hotelBookings.map(b => b.id)) + 1 : 1,
+                tbohConfirmationNo,
+                hotelName,
+                hotelCity,
+                hotelCountry,
+                checkInDate,
+                arrivalTime,
+                checkOutDate,
+                lastCancellationDate,
+                noOfRooms,
+                totalAmount1,
+                currency1,
+                currency2,
+                totalAmount2,
+                cancellationFee,
+                refundAmount,
+                refundStatus,
+                netAmount,
+                roomCategory,
+                netOfAmount
+            };
+            
+            // إضافة الحجز إلى المصفوفة
+            hotelBookings.push(newBooking);
+            
+            // تحديث العرض
+            displayHotelBookings();
+            updateSummary();
+            updateFinancialSummary();
+            
+            // إظهار رسالة نجاح
+            alert(`تم إضافة حجز الفندق بنجاح! رقم التأكيد: ${tbohConfirmationNo}`);
+            
+            // تبديل إلى علامة التبويب "حجوزات الفنادق"
+            switchTab('hotel-bookings');
+            
+            // إعادة تعيين النموذج
+            resetHotelForm();
+        }
+        
+        // التحقق من صحة نموذج حجز الفندق
+        function validateHotelForm() {
+            const hotelName = document.getElementById('hotelName').value;
+            
+            if (!hotelName || hotelName.trim() === '') {
+                alert('يرجى إدخال اسم الفندق');
+                document.getElementById('hotelName').focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // حساب الصافي تلقائياً
+        function calculateHotelNetAmount() {
+            const totalAmount2 = parseFloat(document.getElementById('totalAmount2').value) || 0;
+            const cancellationFee = parseFloat(document.getElementById('cancellationFee').value) || 0;
+            const refundAmount = parseFloat(document.getElementById('refundAmount').value) || 0;
+            
+            // حساب الصافي
+            const netAmount = totalAmount2 - cancellationFee - refundAmount;
+            
+            // تحديث حقل الصافي
+            document.getElementById('netAmount').value = netAmount.toFixed(2);
+            
+            // تحديث الملخص المالي
+            updateHotelFinancialSummaryDisplay();
+            
+            return netAmount;
+        }
+        
+        // تحديث عرض الملخص المالي لحجز الفندق
+        function updateHotelFinancialSummaryDisplay() {
+            const totalAmount1 = parseFloat(document.getElementById('totalAmount1').value) || 0;
+            const totalAmount2 = parseFloat(document.getElementById('totalAmount2').value) || 0;
+            const refundAmount = parseFloat(document.getElementById('refundAmount').value) || 0;
+            const netAmount = parseFloat(document.getElementById('netAmount').value) || 0;
+            const currency1 = document.getElementById('currency1').value;
+            const currency2 = document.getElementById('currency2').value;
+            
+            document.getElementById('hotelTotalAmount').textContent = totalAmount1.toFixed(2);
+            document.getElementById('hotelTotalCurrency').textContent = currency1;
+            document.getElementById('hotelRefundAmount').textContent = refundAmount.toFixed(2);
+            document.getElementById('hotelRefundCurrency').textContent = currency2;
+            document.getElementById('hotelNetAmount').textContent = netAmount.toFixed(2);
+            document.getElementById('hotelNetCurrency').textContent = currency2;
+        }
+        
+        // مسح نموذج حجز الفندق
+        function resetHotelForm() {
+            // تعيين التواريخ الافتراضية
+            const today = new Date();
+            const nextWeek = new Date(today);
+            nextWeek.setDate(today.getDate() + 7);
+            
+            document.getElementById('tbohConfirmationNo').value = generateTBOHCode();
+            document.getElementById('hotelName').value = '';
+            document.getElementById('hotelCity').value = '';
+            document.getElementById('hotelCountry').value = 'السعودية';
+            document.getElementById('hotelCheckInDate').value = formatDate(nextWeek);
+            document.getElementById('arrivalTime').value = '14:00';
+            document.getElementById('hotelCheckOutDate').value = formatDate(new Date(nextWeek.getTime() + 5 * 24 * 60 * 60 * 1000));
+            document.getElementById('lastCancellationDate').value = formatDate(new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000));
+            document.getElementById('noOfRooms').value = '1';
+            document.getElementById('totalAmount1').value = '0.00';
+            document.getElementById('currency1').value = 'USD';
+            document.getElementById('currency2').value = 'MYR';
+            document.getElementById('totalAmount2').value = '0.00';
+            document.getElementById('cancellationFee').value = '0.00';
+            document.getElementById('refundAmount').value = '0.00';
+            document.getElementById('refundStatus').value = 'Pending';
+            document.getElementById('netAmount').value = '0.00';
+            document.getElementById('roomCategory').value = 'Deluxe';
+            document.getElementById('netOfAmount').value = '';
+            
+            // تحديث الملخص المالي
+            updateHotelFinancialSummaryDisplay();
+        }
+        
+        // عرض حجوزات الفنادق في الجدول
+        function displayHotelBookings(filteredBookings = null) {
+            const tableBody = document.getElementById('hotelBookingsTableBody');
+            const dataToDisplay = filteredBookings || hotelBookings;
+            
+            tableBody.innerHTML = '';
+            
+            dataToDisplay.forEach((booking, index) => {
+                const row = document.createElement('tr');
+                
+                // تنسيق حالة الاسترداد
+                let statusClass = '';
+                let statusText = booking.refundStatus;
+                
+                switch(booking.refundStatus) {
+                    case 'Confirmed':
+                        statusClass = 'status-confirmed';
+                        break;
+                    case 'Pending':
+                        statusClass = 'status-pending';
+                        break;
+                    case 'Cancelled':
+                        statusClass = 'status-cancelled';
+                        break;
+                    case 'Refunded':
+                        statusClass = 'status-refunded';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${booking.tbohConfirmationNo}</strong></td>
+                    <td>${booking.hotelName}</td>
+                    <td>${booking.hotelCity}</td>
+                    <td>${booking.hotelCountry}</td>
+                    <td>${formatDisplayDate(booking.checkInDate)}</td>
+                    <td>${booking.arrivalTime}</td>
+                    <td>${formatDisplayDate(booking.checkOutDate)}</td>
+                    <td>${formatDisplayDate(booking.lastCancellationDate)}</td>
+                    <td>${booking.noOfRooms}</td>
+                    <td>${booking.totalAmount1.toFixed(2)}</td>
+                    <td>${booking.currency1}</td>
+                    <td>${booking.currency2}</td>
+                    <td>${booking.totalAmount2.toFixed(2)}</td>
+                    <td>${booking.cancellationFee.toFixed(2)}</td>
+                    <td>${booking.refundAmount.toFixed(2)}</td>
+                    <td><span class="${statusClass}">${statusText}</span></td>
+                    <td>${booking.netAmount.toFixed(2)}</td>
+                    <td>${booking.roomCategory}</td>
+                    <td>${booking.netOfAmount || '-'}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteHotelBooking(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">حذف</button>
+                        <button class="btn btn-info btn-sm" onclick="editHotelBooking(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">تعديل</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // ========== وظائف حجز الطيران ==========
+        
+        // إضافة حجز طيران جديد
+        function addFlightBooking() {
+            // التحقق من الحقول المطلوبة
+            if (!validateFlightForm()) {
+                return;
+            }
+            
+            // الحصول على البيانات من النموذج
+            const clientCode = document.getElementById('flightClientCode').value || generateFlightCode();
+            const clientName = document.getElementById('flightClientName').value;
+            const flyFrom = document.getElementById('flyFrom').value;
+            const flyTo = document.getElementById('flyTo').value;
+            const paxNumber = parseInt(document.getElementById('paxNumber').value) || 1;
+            const dateGo = document.getElementById('dateGo').value;
+            const dateBack = document.getElementById('dateBack').value;
+            const flightSellingRate = parseFloat(document.getElementById('flightSellingRate').value) || 0;
+            const bookingRate = parseFloat(document.getElementById('bookingRate').value) || 0;
+            const confirmationNo = document.getElementById('confirmationNo').value || generateFlightConfirmationNo();
+            const bookedFrom = document.getElementById('bookedFrom').value;
+            const chargeFrom = document.getElementById('chargeFrom').value;
+            const dueDate = document.getElementById('dueDate').value;
+            const bookingStatus = document.getElementById('bookingStatus').value;
+            const cancellationCharge = parseFloat(document.getElementById('cancellationCharge').value) || 0;
+            const clientRefund = parseFloat(document.getElementById('clientRefund').value) || 0;
+            const rateAfterCancellation = parseFloat(document.getElementById('rateAfterCancellation').value) || 0;
+            const rateAfterConversion = parseFloat(document.getElementById('rateAfterConversion').value) || 0;
+            const refundCurrency = document.getElementById('refundCurrency').value;
+            const refundAmountAfterConversion = parseFloat(document.getElementById('refundAmountAfterConversion').value) || 0;
+            const note = document.getElementById('flightNote').value;
+            
+            // إنشاء كائن الحجز الجديد
+            const newBooking = {
+                id: flightBookings.length > 0 ? Math.max(...flightBookings.map(b => b.id)) + 1 : 1,
+                clientCode,
+                clientName,
+                flyFrom,
+                flyTo,
+                paxNumber,
+                dateGo,
+                dateBack,
+                flightSellingRate,
+                bookingRate,
+                confirmationNo,
+                bookedFrom,
+                chargeFrom,
+                dueDate,
+                bookingStatus,
+                cancellationCharge,
+                clientRefund,
+                rateAfterCancellation,
+                rateAfterConversion,
+                refundCurrency,
+                refundAmountAfterConversion,
+                note
+            };
+            
+            // إضافة الحجز إلى المصفوفة
+            flightBookings.push(newBooking);
+            
+            // تحديث العرض
+            displayFlightBookings();
+            updateSummary();
+            updateFinancialSummary();
+            
+            // إظهار رسالة نجاح
+            alert(`تم إضافة حجز الطيران بنجاح! كود الحجز: ${clientCode}`);
+            
+            // تبديل إلى علامة التبويب "حجوزات الطيران"
+            switchTab('flight-bookings');
+            
+            // إعادة تعيين النموذج
+            resetFlightForm();
+        }
+        
+        // التحقق من صحة نموذج حجز الطيران
+        function validateFlightForm() {
+            const clientName = document.getElementById('flightClientName').value;
+            const flyFrom = document.getElementById('flyFrom').value;
+            const flyTo = document.getElementById('flyTo').value;
+            
+            if (!clientName || clientName.trim() === '') {
+                alert('يرجى إدخال اسم العميل');
+                document.getElementById('flightClientName').focus();
+                return false;
+            }
+            
+            if (!flyFrom || flyFrom.trim() === '') {
+                alert('يرجى إدخال مدينة المغادرة');
+                document.getElementById('flyFrom').focus();
+                return false;
+            }
+            
+            if (!flyTo || flyTo.trim() === '') {
+                alert('يرجى إدخال مدينة الوصول');
+                document.getElementById('flyTo').focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // حساب استرداد الطيران تلقائياً
+        function calculateFlightRefund() {
+            const bookingRate = parseFloat(document.getElementById('bookingRate').value) || 0;
+            const cancellationCharge = parseFloat(document.getElementById('cancellationCharge').value) || 0;
+            const bookingStatus = document.getElementById('bookingStatus').value;
+            
+            let clientRefund = 0;
+            let rateAfterCancellation = 0;
+            let rateAfterConversion = bookingRate;
+            let refundAmountAfterConversion = 0;
+            
+            if (bookingStatus === 'Cancelled') {
+                // حساب الاسترداد في حالة الإلغاء
+                clientRefund = bookingRate - cancellationCharge;
+                if (clientRefund < 0) clientRefund = 0;
+                rateAfterCancellation = cancellationCharge;
+                refundAmountAfterConversion = clientRefund;
+            } else {
+                // في حالة الحجز النشط
+                clientRefund = 0;
+                rateAfterCancellation = 0;
+                rateAfterConversion = bookingRate;
+                refundAmountAfterConversion = 0;
+            }
+            
+            // تحديث الحقول
+            document.getElementById('clientRefund').value = clientRefund.toFixed(2);
+            document.getElementById('rateAfterCancellation').value = rateAfterCancellation.toFixed(2);
+            document.getElementById('rateAfterConversion').value = rateAfterConversion.toFixed(2);
+            document.getElementById('refundAmountAfterConversion').value = refundAmountAfterConversion.toFixed(2);
+            
+            // تحديث الملخص المالي
+            updateFlightFinancialSummaryDisplay();
+            
+            return clientRefund;
+        }
+        
+        // تحديث عرض الملخص المالي لحجز الطيران
+        function updateFlightFinancialSummaryDisplay() {
+            const flightSellingRate = parseFloat(document.getElementById('flightSellingRate').value) || 0;
+            const bookingRate = parseFloat(document.getElementById('bookingRate').value) || 0;
+            const clientRefund = parseFloat(document.getElementById('clientRefund').value) || 0;
+            const currency = document.getElementById('refundCurrency').value;
+            
+            document.getElementById('flightSellingRateDisplay').textContent = flightSellingRate.toFixed(2);
+            document.getElementById('flightSellingCurrency').textContent = currency;
+            document.getElementById('bookingRateDisplay').textContent = bookingRate.toFixed(2);
+            document.getElementById('bookingRateCurrency').textContent = currency;
+            document.getElementById('refundAmountDisplay').textContent = clientRefund.toFixed(2);
+            document.getElementById('refundAmountCurrency').textContent = currency;
+        }
+        
+        // مسح نموذج حجز الطيران
+        function resetFlightForm() {
+            // تعيين التواريخ الافتراضية
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const nextWeek = new Date(today);
+            nextWeek.setDate(today.getDate() + 7);
+            
+            document.getElementById('flightClientCode').value = generateFlightCode();
+            document.getElementById('flightClientName').value = '';
+            document.getElementById('flyFrom').value = '';
+            document.getElementById('flyTo').value = '';
+            document.getElementById('paxNumber').value = '1';
+            document.getElementById('dateGo').value = formatDate(nextWeek);
+            document.getElementById('dateBack').value = formatDate(new Date(nextWeek.getTime() + 7 * 24 * 60 * 60 * 1000));
+            document.getElementById('flightSellingRate').value = '0.00';
+            document.getElementById('bookingRate').value = '0.00';
+            document.getElementById('confirmationNo').value = generateFlightConfirmationNo();
+            document.getElementById('bookedFrom').value = '';
+            document.getElementById('chargeFrom').value = '';
+            document.getElementById('dueDate').value = formatDate(tomorrow);
+            document.getElementById('bookingStatus').value = 'Active';
+            document.getElementById('cancellationCharge').value = '0.00';
+            document.getElementById('clientRefund').value = '0.00';
+            document.getElementById('rateAfterCancellation').value = '0.00';
+            document.getElementById('rateAfterConversion').value = '0.00';
+            document.getElementById('refundCurrency').value = 'USD';
+            document.getElementById('refundAmountAfterConversion').value = '0.00';
+            document.getElementById('flightNote').value = '';
+            
+            // تحديث الملخص المالي
+            updateFlightFinancialSummaryDisplay();
+        }
+        
+        // عرض حجوزات الطيران في الجدول
+        function displayFlightBookings(filteredBookings = null) {
+            const tableBody = document.getElementById('flightBookingsTableBody');
+            const dataToDisplay = filteredBookings || flightBookings;
+            
+            tableBody.innerHTML = '';
+            
+            dataToDisplay.forEach((booking, index) => {
+                const row = document.createElement('tr');
+                
+                // تنسيق حالة الحجز
+                let statusClass = '';
+                let statusText = '';
+                
+                switch(booking.bookingStatus) {
+                    case 'Active':
+                        statusClass = 'status-active';
+                        statusText = 'نشط';
+                        break;
+                    case 'Cancelled':
+                        statusClass = 'status-cancelled';
+                        statusText = 'ملغي';
+                        break;
+                }
+                
+                // التحقق من وجود تنبيه
+                const today = new Date();
+                const dueDate = new Date(booking.dueDate);
+                const daysDiff = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                let alarmIndicator = '';
+                if (daysDiff <= 7 && daysDiff >= 0 && booking.bookingStatus === 'Active') {
+                    alarmIndicator = `<span class="alarm-indicator">${daysDiff} يوم</span>`;
+                } else if (daysDiff < 0 && booking.bookingStatus === 'Active') {
+                    alarmIndicator = `<span class="alarm-indicator" style="background-color: #e74c3c;">متأخر</span>`;
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${booking.clientCode}</strong></td>
+                    <td>${booking.clientName}</td>
+                    <td>${booking.flyFrom}</td>
+                    <td>${booking.flyTo}</td>
+                    <td>${booking.paxNumber}</td>
+                    <td>${formatDisplayDate(booking.dateGo)}</td>
+                    <td>${formatDisplayDate(booking.dateBack)}</td>
+                    <td>${booking.flightSellingRate.toFixed(2)}</td>
+                    <td>${booking.bookingRate.toFixed(2)}</td>
+                    <td>${booking.confirmationNo}</td>
+                    <td>${booking.bookedFrom}</td>
+                    <td>${booking.chargeFrom}</td>
+                    <td>${formatDisplayDate(booking.dueDate)} ${alarmIndicator}</td>
+                    <td><span class="${statusClass}">${statusText}</span></td>
+                    <td>${booking.cancellationCharge.toFixed(2)}</td>
+                    <td>${booking.clientRefund.toFixed(2)}</td>
+                    <td>${booking.rateAfterCancellation.toFixed(2)}</td>
+                    <td>${booking.rateAfterConversion.toFixed(2)}</td>
+                    <td>${booking.note || '-'}</td>
+                    <td>${booking.refundAmountAfterConversion.toFixed(2)} ${booking.refundCurrency}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteFlightBooking(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">حذف</button>
+                        <button class="btn btn-info btn-sm" onclick="editFlightBooking(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">تعديل</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // ========== وظائف الجوالات السياحية ==========
+        
+        // تبديل بين نماذج الحجز
+        function switchFormTab(tabType) {
+            // إخفاء جميع أقسام النماذج
+            document.getElementById('client-form-section').classList.remove('active');
+            document.getElementById('hotel-form-section').classList.remove('active');
+            document.getElementById('flight-form-section').classList.remove('active');
+            document.getElementById('tour-form-section').classList.remove('active');
+            
+            // إزالة النشاط من جميع علامات التبويب
+            document.getElementById('form-tab-client').classList.remove('active');
+            document.getElementById('form-tab-hotel').classList.remove('active');
+            document.getElementById('form-tab-flight').classList.remove('active');
+            document.getElementById('form-tab-tour').classList.remove('active');
+            
+            // عرض القسم المطلوب
+            if (tabType === 'client') {
+                document.getElementById('client-form-section').classList.add('active');
+                document.getElementById('form-tab-client').classList.add('active');
+            } else if (tabType === 'hotel') {
+                document.getElementById('hotel-form-section').classList.add('active');
+                document.getElementById('form-tab-hotel').classList.add('active');
+            } else if (tabType === 'flight') {
+                document.getElementById('flight-form-section').classList.add('active');
+                document.getElementById('form-tab-flight').classList.add('active');
+            } else if (tabType === 'tour') {
+                document.getElementById('tour-form-section').classList.add('active');
+                document.getElementById('form-tab-tour').classList.add('active');
+            }
+        }
+        
+        // إضافة جوالة سياحية جديدة
+        function addTourBooking() {
+            // التحقق من الحقول المطلوبة
+            if (!validateTourForm()) {
+                return;
+            }
+            
+            // الحصول على البيانات من النموذج
+            const clientCode = document.getElementById('tourClientCode').value || generateTourCode();
+            const clientName = document.getElementById('tourClientName').value;
+            const date = document.getElementById('tourDate').value;
+            const destination = document.getElementById('tourDestination').value;
+            const supplier = document.getElementById('tourSupplier').value;
+            const tour = document.getElementById('tourName').value;
+            const cost = parseFloat(document.getElementById('tourCost').value) || 0;
+            const currency = document.getElementById('tourCurrency').value;
+            const bookingRate = parseFloat(document.getElementById('tourBookingRate').value) || 0;
+            const confirmationNo = document.getElementById('tourConfirmationNo').value || generateTourConfirmationNo();
+            const bookedFrom = document.getElementById('tourBookedFrom').value;
+            const chargeFrom = document.getElementById('tourChargeFrom').value;
+            const dueDate = document.getElementById('tourDueDate').value;
+            const status = document.getElementById('tourStatus').value;
+            const cancellationCharge = parseFloat(document.getElementById('tourCancellationCharge').value) || 0;
+            const clientRefund = parseFloat(document.getElementById('tourClientRefund').value) || 0;
+            const rateAfterCancellation = parseFloat(document.getElementById('tourRateAfterCancellation').value) || 0;
+            const rateAfterConversion = parseFloat(document.getElementById('tourRateAfterConversion').value) || 0;
+            const note = document.getElementById('tourNote').value;
+            const refundAmountAfterConversion = parseFloat(document.getElementById('tourRefundAmountAfterConversion').value) || 0;
+            
+            // إنشاء كائن الجوالة السياحية الجديد
+            const newBooking = {
+                id: tourBookings.length > 0 ? Math.max(...tourBookings.map(b => b.id)) + 1 : 1,
+                clientCode,
+                clientName,
+                date,
+                destination,
+                supplier,
+                tour,
+                cost,
+                currency,
+                bookingRate,
+                confirmationNo,
+                bookedFrom,
+                chargeFrom,
+                dueDate,
+                status,
+                cancellationCharge,
+                clientRefund,
+                rateAfterCancellation,
+                rateAfterConversion,
+                note,
+                refundAmountAfterConversion
+            };
+            
+            // إضافة الحجز إلى المصفوفة
+            tourBookings.push(newBooking);
+            
+            // تحديث العرض
+            displayTourBookings();
+            updateSummary();
+            updateFinancialSummary();
+            checkAlarms();
+            
+            // إظهار رسالة نجاح
+            alert(`تم إضافة الجوالة السياحية بنجاح! كود الحجز: ${clientCode}`);
+            
+            // تبديل إلى علامة التبويب "الجوالات السياحية"
+            switchTab('tour-bookings');
+            
+            // إعادة تعيين النموذج
+            resetTourForm();
+        }
+        
+        // التحقق من صحة نموذج الجوالة السياحية
+        function validateTourForm() {
+            const clientName = document.getElementById('tourClientName').value;
+            const destination = document.getElementById('tourDestination').value;
+            const tour = document.getElementById('tourName').value;
+            
+            if (!clientName || clientName.trim() === '') {
+                alert('يرجى إدخال اسم العميل');
+                document.getElementById('tourClientName').focus();
+                return false;
+            }
+            
+            if (!destination || destination.trim() === '') {
+                alert('يرجى إدخال الوجهة السياحية');
+                document.getElementById('tourDestination').focus();
+                return false;
+            }
+            
+            if (!tour || tour.trim() === '') {
+                alert('يرجى إدخال اسم الجوالة السياحية');
+                document.getElementById('tourName').focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // حساب استرداد الجوالة السياحية تلقائياً
+        function calculateTourRefund() {
+            const bookingRate = parseFloat(document.getElementById('tourBookingRate').value) || 0;
+            const cancellationCharge = parseFloat(document.getElementById('tourCancellationCharge').value) || 0;
+            const status = document.getElementById('tourStatus').value;
+            
+            let clientRefund = 0;
+            let rateAfterCancellation = 0;
+            let rateAfterConversion = bookingRate;
+            let refundAmountAfterConversion = 0;
+            
+            if (status === 'Cancelled') {
+                // حساب الاسترداد في حالة الإلغاء
+                clientRefund = bookingRate - cancellationCharge;
+                if (clientRefund < 0) clientRefund = 0;
+                rateAfterCancellation = cancellationCharge;
+                refundAmountAfterConversion = clientRefund;
+            } else {
+                // في حالة الحجز النشط
+                clientRefund = 0;
+                rateAfterCancellation = 0;
+                rateAfterConversion = bookingRate;
+                refundAmountAfterConversion = 0;
+            }
+            
+            // تحديث الحقول
+            document.getElementById('tourClientRefund').value = clientRefund.toFixed(2);
+            document.getElementById('tourRateAfterCancellation').value = rateAfterCancellation.toFixed(2);
+            document.getElementById('tourRateAfterConversion').value = rateAfterConversion.toFixed(2);
+            document.getElementById('tourRefundAmountAfterConversion').value = refundAmountAfterConversion.toFixed(2);
+            
+            // تحديث الملخص المالي
+            updateTourFinancialSummaryDisplay();
+            
+            return clientRefund;
+        }
+        
+        // تحديث عرض الملخص المالي للجوالة السياحية
+        function updateTourFinancialSummaryDisplay() {
+            const cost = parseFloat(document.getElementById('tourCost').value) || 0;
+            const bookingRate = parseFloat(document.getElementById('tourBookingRate').value) || 0;
+            const clientRefund = parseFloat(document.getElementById('tourClientRefund').value) || 0;
+            const currency = document.getElementById('tourCurrency').value;
+            
+            document.getElementById('tourCostDisplay').textContent = cost.toFixed(2);
+            document.getElementById('tourCostCurrency').textContent = currency;
+            document.getElementById('tourBookingRateDisplay').textContent = bookingRate.toFixed(2);
+            document.getElementById('tourBookingRateCurrency').textContent = currency;
+            document.getElementById('tourRefundAmountDisplay').textContent = clientRefund.toFixed(2);
+            document.getElementById('tourRefundCurrency').textContent = currency;
+        }
+        
+        // عرض الجوالات السياحية في الجدول
+        function displayTourBookings(filteredBookings = null) {
+            const tableBody = document.getElementById('tourBookingsTableBody');
+            const dataToDisplay = filteredBookings || tourBookings;
+            
+            tableBody.innerHTML = '';
+            
+            dataToDisplay.forEach((booking, index) => {
+                const row = document.createElement('tr');
+                
+                // تنسيق حالة الحجز
+                let statusClass = '';
+                let statusText = '';
+                
+                switch(booking.status) {
+                    case 'Active':
+                        statusClass = 'status-active';
+                        statusText = 'نشط';
+                        break;
+                    case 'Cancelled':
+                        statusClass = 'status-cancelled';
+                        statusText = 'ملغي';
+                        break;
+                }
+                
+                // التحقق من وجود تنبيه
+                const today = new Date();
+                const dueDate = new Date(booking.dueDate);
+                const daysDiff = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                let alarmIndicator = '';
+                if (daysDiff <= 7 && daysDiff >= 0 && booking.status === 'Active') {
+                    alarmIndicator = `<span class="alarm-indicator">${daysDiff} يوم</span>`;
+                } else if (daysDiff < 0 && booking.status === 'Active') {
+                    alarmIndicator = `<span class="alarm-indicator" style="background-color: #e74c3c;">متأخر</span>`;
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${booking.clientCode}</strong></td>
+                    <td>${booking.clientName}</td>
+                    <td>${formatDisplayDate(booking.date)}</td>
+                    <td>${booking.destination}</td>
+                    <td>${booking.supplier}</td>
+                    <td>${booking.tour}</td>
+                    <td>${booking.cost.toFixed(2)}</td>
+                    <td>${booking.currency}</td>
+                    <td>${booking.bookingRate.toFixed(2)} ${booking.currency}</td>
+                    <td>${booking.confirmationNo}</td>
+                    <td>${booking.bookedFrom}</td>
+                    <td>${booking.chargeFrom}</td>
+                    <td>${formatDisplayDate(booking.dueDate)} ${alarmIndicator}</td>
+                    <td><span class="${statusClass}">${statusText}</span></td>
+                    <td>${booking.cancellationCharge.toFixed(2)} ${booking.currency}</td>
+                    <td>${booking.clientRefund.toFixed(2)} ${booking.currency}</td>
+                    <td>${booking.rateAfterCancellation.toFixed(2)} ${booking.currency}</td>
+                    <td>${booking.rateAfterConversion.toFixed(2)} ${booking.currency}</td>
+                    <td>${booking.note || '-'}</td>
+                    <td>${booking.refundAmountAfterConversion.toFixed(2)} ${booking.currency}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteTourBooking(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">حذف</button>
+                        <button class="btn btn-info btn-sm" onclick="editTourBooking(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">تعديل</button>
+                        <button class="btn btn-success btn-sm" onclick="viewTourBookingDetails(${booking.id})" style="padding: 5px 10px; font-size: 0.8rem;">تفاصيل</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // البحث في الجوالات السياحية
+        function searchTourBookings() {
+            const searchTerm = document.getElementById('tourSearchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('tourStatusFilter').value;
+            
+            let filteredBookings = tourBookings;
+            
+            // تطبيق البحث النصي
+            if (searchTerm) {
+                filteredBookings = filteredBookings.filter(booking => 
+                    booking.clientName.toLowerCase().includes(searchTerm) ||
+                    booking.clientCode.toLowerCase().includes(searchTerm) ||
+                    booking.destination.toLowerCase().includes(searchTerm) ||
+                    booking.supplier.toLowerCase().includes(searchTerm) ||
+                    booking.tour.toLowerCase().includes(searchTerm) ||
+                    booking.confirmationNo.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // تطبيق تصفية الحالة
+            if (statusFilter !== 'all') {
+                filteredBookings = filteredBookings.filter(booking => booking.status === statusFilter);
+            }
+            
+            // عرض النتائج
+            displayTourBookings(filteredBookings);
+        }
+        
+        // مسح نموذج الجوالة السياحية
+        function resetTourForm() {
+            // تعيين التواريخ الافتراضية
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const nextWeek = new Date(today);
+            nextWeek.setDate(today.getDate() + 7);
+            
+            document.getElementById('tourClientCode').value = generateTourCode();
+            document.getElementById('tourClientName').value = '';
+            document.getElementById('tourDate').value = formatDate(nextWeek);
+            document.getElementById('tourDestination').value = '';
+            document.getElementById('tourSupplier').value = '';
+            document.getElementById('tourName').value = '';
+            document.getElementById('tourCost').value = '0.00';
+            document.getElementById('tourCurrency').value = 'SAR';
+            document.getElementById('tourBookingRate').value = '0.00';
+            document.getElementById('tourConfirmationNo').value = generateTourConfirmationNo();
+            document.getElementById('tourBookedFrom').value = '';
+            document.getElementById('tourChargeFrom').value = '';
+            document.getElementById('tourDueDate').value = formatDate(tomorrow);
+            document.getElementById('tourStatus').value = 'Active';
+            document.getElementById('tourCancellationCharge').value = '0.00';
+            document.getElementById('tourClientRefund').value = '0.00';
+            document.getElementById('tourRateAfterCancellation').value = '0.00';
+            document.getElementById('tourRateAfterConversion').value = '0.00';
+            document.getElementById('tourNote').value = '';
+            document.getElementById('tourRefundAmountAfterConversion').value = '0.00';
+            
+            // تحديث الملخص المالي
+            updateTourFinancialSummaryDisplay();
+        }
+        
+        // ========== وظائف العرض ==========
+        
+        // تبديل علامات التبويب الرئيسية
+        function switchTab(tabName) {
+            // إخفاء جميع المحتويات
+            document.getElementById('new-booking-section').classList.add('hidden');
+            document.getElementById('client-bookings-section').classList.add('hidden');
+            document.getElementById('hotel-bookings-section').classList.add('hidden');
+            document.getElementById('flight-bookings-section').classList.add('hidden');
+            document.getElementById('tour-bookings-section').classList.add('hidden');
+            document.getElementById('financial-section').classList.add('hidden');
+            document.getElementById('alarms-section').classList.add('hidden');
+            
+            // إزالة النشاط من جميع علامات التبويب
+            document.getElementById('new-booking-tab').classList.remove('active');
+            document.getElementById('client-bookings-tab').classList.remove('active');
+            document.getElementById('hotel-bookings-tab').classList.remove('active');
+            document.getElementById('flight-bookings-tab').classList.remove('active');
+            document.getElementById('tour-bookings-tab').classList.remove('active');
+            document.getElementById('financial-tab').classList.remove('active');
+            document.getElementById('alarms-tab').classList.remove('active');
+            
+            // عرض المحتوى المطلوب
+            if (tabName === 'new-booking') {
+                document.getElementById('new-booking-section').classList.remove('hidden');
+                document.getElementById('new-booking-tab').classList.add('active');
+            } else if (tabName === 'client-bookings') {
+                document.getElementById('client-bookings-section').classList.remove('hidden');
+                document.getElementById('client-bookings-tab').classList.add('active');
+                displayClientBookings();
+                updateSummary();
+            } else if (tabName === 'hotel-bookings') {
+                document.getElementById('hotel-bookings-section').classList.remove('hidden');
+                document.getElementById('hotel-bookings-tab').classList.add('active');
+                displayHotelBookings();
+                updateSummary();
+            } else if (tabName === 'flight-bookings') {
+                document.getElementById('flight-bookings-section').classList.remove('hidden');
+                document.getElementById('flight-bookings-tab').classList.add('active');
+                displayFlightBookings();
+                updateSummary();
+            } else if (tabName === 'tour-bookings') {
+                document.getElementById('tour-bookings-section').classList.remove('hidden');
+                document.getElementById('tour-bookings-tab').classList.add('active');
+                displayTourBookings();
+                updateSummary();
+            } else if (tabName === 'financial') {
+                document.getElementById('financial-section').classList.remove('hidden');
+                document.getElementById('financial-tab').classList.add('active');
+                updateFinancialSummary();
+            } else if (tabName === 'alarms') {
+                document.getElementById('alarms-section').classList.remove('hidden');
+                document.getElementById('alarms-tab').classList.add('active');
+                checkAlarms();
+            }
+        }
+        
+        // ========== وظائف الإحصائيات والتحديثات ==========
+        
+        // تحديث الإحصائيات
+        function updateSummary() {
+            // إحصائيات حجوزات العملاء
+            document.getElementById('totalClientBookingsCount').textContent = clientBookings.length;
+            document.getElementById('pendingClientBookingsCount').textContent = clientBookings.filter(b => b.packageStatus === 'معلق').length;
+            
+            const totalClientRevenue = clientBookings.reduce((sum, booking) => sum + booking.finalPackageRate, 0);
+            document.getElementById('totalClientRevenue').textContent = totalClientRevenue.toLocaleString();
+            
+            const totalClientBalance = clientBookings.reduce((sum, booking) => sum + booking.balance, 0);
+            document.getElementById('totalClientBalance').textContent = totalClientBalance.toLocaleString();
+            
+            // إحصائيات حجوزات الفنادق
+            document.getElementById('totalHotelBookingsCount').textContent = hotelBookings.length;
+            
+            const totalHotelAmount = hotelBookings.reduce((sum, booking) => sum + booking.totalAmount2, 0);
+            document.getElementById('totalHotelAmount').textContent = totalHotelAmount.toLocaleString();
+            
+            const totalHotelRefunds = hotelBookings.reduce((sum, booking) => sum + booking.refundAmount, 0);
+            document.getElementById('totalHotelRefunds').textContent = totalHotelRefunds.toLocaleString();
+            
+            const totalHotelNet = hotelBookings.reduce((sum, booking) => sum + booking.netAmount, 0);
+            document.getElementById('totalHotelNet').textContent = totalHotelNet.toLocaleString();
+            
+            // إحصائيات حجوزات الطيران
+            document.getElementById('totalFlightBookingsCount').textContent = flightBookings.length;
+            
+            const totalFlightSales = flightBookings.reduce((sum, booking) => sum + booking.flightSellingRate, 0);
+            document.getElementById('totalFlightSales').textContent = totalFlightSales.toLocaleString();
+            
+            const cancelledFlightBookings = flightBookings.filter(b => b.bookingStatus === 'Cancelled').length;
+            document.getElementById('cancelledFlightBookings').textContent = cancelledFlightBookings;
+            
+            const totalFlightRefunds = flightBookings.reduce((sum, booking) => sum + booking.clientRefund, 0);
+            document.getElementById('totalFlightRefunds').textContent = totalFlightRefunds.toLocaleString();
+            
+            // إحصائيات الجوالات السياحية
+            document.getElementById('totalTourBookingsCount').textContent = tourBookings.length;
+            
+            const totalTourCost = tourBookings.reduce((sum, booking) => sum + booking.cost, 0);
+            document.getElementById('totalTourCost').textContent = totalTourCost.toLocaleString();
+            
+            const cancelledTourBookings = tourBookings.filter(b => b.status === 'Cancelled').length;
+            document.getElementById('cancelledTourBookings').textContent = cancelledTourBookings;
+            
+            const totalTourRefunds = tourBookings.reduce((sum, booking) => sum + booking.clientRefund, 0);
+            document.getElementById('totalTourRefunds').textContent = totalTourRefunds.toLocaleString();
+        }
+        
+        // تحديث الملخص المالي
+        function updateFinancialSummary() {
+            const totalClientRevenue = clientBookings.reduce((sum, booking) => sum + booking.finalPackageRate, 0);
+            const totalHotelRevenue = hotelBookings.reduce((sum, booking) => sum + booking.totalAmount2, 0);
+            const totalFlightRevenue = flightBookings.reduce((sum, booking) => sum + booking.flightSellingRate, 0);
+            const totalTourRevenue = tourBookings.reduce((sum, booking) => sum + booking.cost, 0);
+            
+            document.getElementById('financialClientRevenue').textContent = totalClientRevenue.toLocaleString();
+            document.getElementById('financialHotelRevenue').textContent = totalHotelRevenue.toLocaleString();
+            document.getElementById('financialFlightRevenue').textContent = totalFlightRevenue.toLocaleString();
+            document.getElementById('financialTourRevenue').textContent = totalTourRevenue.toLocaleString();
+            
+            // تحديث جدول التقارير المالية
+            updateFinancialTable();
+        }
+        
+        // تحديث جدول التقارير المالية
+        function updateFinancialTable() {
+            const tableBody = document.getElementById('financialTableBody');
+            
+            tableBody.innerHTML = '';
+            
+            // إضافة حجوزات العملاء
+            clientBookings.forEach(booking => {
+                const row = document.createElement('tr');
+                
+                // تحديد حالة الدفع
+                let paymentStatus = '';
+                if (booking.balance === 0) {
+                    paymentStatus = '<span class="status-confirmed">مكتمل</span>';
+                } else if (booking.balance > 0 && booking.balance < booking.finalPackageRate) {
+                    paymentStatus = '<span class="status-pending">جزئي</span>';
+                } else {
+                    paymentStatus = '<span class="status-pending">غير مدفوع</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>حجز عميل</td>
+                    <td>${booking.clientName}</td>
+                    <td>${booking.clientCode}</td>
+                    <td>${booking.cost.toFixed(2)}</td>
+                    <td>${booking.profit.toFixed(2)}</td>
+                    <td>${booking.finalPackageRate.toFixed(2)}</td>
+                    <td>${booking.amountPaid.toFixed(2)}</td>
+                    <td>${booking.balance.toFixed(2)}</td>
+                    <td>${booking.currency}</td>
+                    <td>${paymentStatus}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // إضافة حجوزات الفنادق
+            hotelBookings.forEach(booking => {
+                const row = document.createElement('tr');
+                
+                // تحديد حالة الاسترداد
+                let paymentStatus = '';
+                switch(booking.refundStatus) {
+                    case 'Pending':
+                        paymentStatus = '<span class="status-pending">معلق</span>';
+                        break;
+                    case 'Confirmed':
+                        paymentStatus = '<span class="status-confirmed">مؤكد</span>';
+                        break;
+                    case 'Cancelled':
+                        paymentStatus = '<span class="status-cancelled">ملغي</span>';
+                        break;
+                    case 'Refunded':
+                        paymentStatus = '<span class="status-refunded">مسترد</span>';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>حجز فندق</td>
+                    <td>${booking.hotelName}</td>
+                    <td>${booking.tbohConfirmationNo}</td>
+                    <td>${booking.totalAmount1.toFixed(2)}</td>
+                    <td>${booking.totalAmount2.toFixed(2)}</td>
+                    <td>${booking.totalAmount2.toFixed(2)}</td>
+                    <td>${booking.refundAmount.toFixed(2)}</td>
+                    <td>${booking.netAmount.toFixed(2)}</td>
+                    <td>${booking.currency2}</td>
+                    <td>${paymentStatus}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // إضافة حجوزات الطيران
+            flightBookings.forEach(booking => {
+                const row = document.createElement('tr');
+                
+                // تحديد حالة الدفع
+                let paymentStatus = '';
+                switch(booking.bookingStatus) {
+                    case 'Active':
+                        paymentStatus = '<span class="status-active">نشط</span>';
+                        break;
+                    case 'Cancelled':
+                        paymentStatus = '<span class="status-cancelled">ملغي</span>';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>حجز طيران</td>
+                    <td>${booking.clientName}</td>
+                    <td>${booking.clientCode}</td>
+                    <td>${booking.flightSellingRate.toFixed(2)}</td>
+                    <td>${booking.bookingRate.toFixed(2)}</td>
+                    <td>${booking.flightSellingRate.toFixed(2)}</td>
+                    <td>${booking.clientRefund.toFixed(2)}</td>
+                    <td>${booking.rateAfterCancellation.toFixed(2)}</td>
+                    <td>${booking.refundCurrency}</td>
+                    <td>${paymentStatus}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // إضافة الجوالات السياحية
+            tourBookings.forEach(booking => {
+                const row = document.createElement('tr');
+                
+                // تحديد حالة الدفع
+                let paymentStatus = '';
+                switch(booking.status) {
+                    case 'Active':
+                        paymentStatus = '<span class="status-active">نشط</span>';
+                        break;
+                    case 'Cancelled':
+                        paymentStatus = '<span class="status-cancelled">ملغي</span>';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>جوالة سياحية</td>
+                    <td>${booking.clientName}</td>
+                    <td>${booking.clientCode}</td>
+                    <td>${booking.cost.toFixed(2)}</td>
+                    <td>${booking.bookingRate.toFixed(2)}</td>
+                    <td>${booking.cost.toFixed(2)}</td>
+                    <td>${booking.clientRefund.toFixed(2)}</td>
+                    <td>${booking.rateAfterCancellation.toFixed(2)}</td>
+                    <td>${booking.currency}</td>
+                    <td>${paymentStatus}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // ========== وظائف مساعدة ==========
+        
+        // وظائف مساعدة
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+        
+        function formatDisplayDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ar-EG');
+        }
+        
+        // ضبط تنسيق Excel للغة العربية
+        function adjustExcelFormatting(ws) {
+            // ضبط اتجاه النص للغة العربية
+            const range = XLSX.utils.decode_range(ws['!ref']);
+            for (let R = range.s.r; R <= range.e.r; ++R) {
+                for (let C = range.s.c; C <= range.e.c; ++C) {
+                    const cell_address = {c: C, r: R};
+                    const cell_ref = XLSX.utils.encode_cell(cell_address);
+                    if (ws[cell_ref]) {
+                        ws[cell_ref].s = ws[cell_ref].s || {};
+                        ws[cell_ref].s.alignment = ws[cell_ref].s.alignment || {};
+                        ws[cell_ref].s.alignment.horizontal = 'right';
+                        ws[cell_ref].s.alignment.vertical = 'center';
+                    }
+                }
+            }
+        }
+        
+        // ========== وظائف إضافية ==========
+        
+        // فحص التنبيهات
+        function checkAlarms() {
+            let nearAlarms = 0;
+            let latePayments = 0;
+            let tourAlarms = 0;
+            let flightAlarms = 0;
+            const today = new Date();
+            
+            // فحص حجوزات العملاء
+            clientBookings.forEach(booking => {
+                if (booking.packageStatus !== 'ملغي') {
+                    const alarmDate = new Date(booking.alarmDate);
+                    const daysDiff = Math.ceil((alarmDate - today) / (1000 * 60 * 60 * 24));
+                    
+                    if (daysDiff <= 7 && daysDiff >= 0) {
+                        nearAlarms++;
+                    }
+                    
+                    if (booking.balance > 0) {
+                        const paymentDate = new Date(booking.paymentDate);
+                        const paymentDiff = Math.ceil((today - paymentDate) / (1000 * 60 * 60 * 24));
+                        if (paymentDiff > 0) {
+                            latePayments++;
+                        }
+                    }
+                }
+            });
+            
+            // فحص الجوالات السياحية
+            tourBookings.forEach(booking => {
+                if (booking.status === 'Active') {
+                    const dueDate = new Date(booking.dueDate);
+                    const daysDiff = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                    if (daysDiff <= 7 && daysDiff >= 0) {
+                        tourAlarms++;
+                    }
+                }
+            });
+            
+            // فحص حجوزات الطيران
+            flightBookings.forEach(booking => {
+                if (booking.bookingStatus === 'Active') {
+                    const dueDate = new Date(booking.dueDate);
+                    const daysDiff = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                    if (daysDiff <= 7 && daysDiff >= 0) {
+                        flightAlarms++;
+                    }
+                }
+            });
+            
+            // تحديث الإحصائيات
+            document.getElementById('nearAlarmsCount').textContent = nearAlarms;
+            document.getElementById('latePaymentsCount').textContent = latePayments;
+            document.getElementById('tourAlarmsCount').textContent = tourAlarms;
+            document.getElementById('flightAlarmsCount').textContent = flightAlarms;
+        }
+        
+        // مسح البحث في حجوزات العملاء
+        function clearClientSearch() {
+            document.getElementById('clientSearchInput').value = '';
+            document.getElementById('clientStatusFilter').value = 'all';
+            displayClientBookings();
+        }
+        
+        // مسح البحث في حجوزات الفنادق
+        function clearHotelSearch() {
+            document.getElementById('hotelSearchInput').value = '';
+            document.getElementById('hotelStatusFilter').value = 'all';
+            displayHotelBookings();
+        }
+        
+        // مسح البحث في حجوزات الطيران
+        function clearFlightSearch() {
+            document.getElementById('flightSearchInput').value = '';
+            document.getElementById('flightStatusFilter').value = 'all';
+            displayFlightBookings();
+        }
+        
+        // مسح البحث في الجوالات السياحية
+        function clearTourSearch() {
+            document.getElementById('tourSearchInput').value = '';
+            document.getElementById('tourStatusFilter').value = 'all';
+            displayTourBookings();
+        }
+        
+        // البحث في حجوزات الفنادق
+        function searchHotelBookings() {
+            const searchTerm = document.getElementById('hotelSearchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('hotelStatusFilter').value;
+            
+            let filteredBookings = hotelBookings;
+            
+            // تطبيق البحث النصي
+            if (searchTerm) {
+                filteredBookings = filteredBookings.filter(booking => 
+                    booking.hotelName.toLowerCase().includes(searchTerm) ||
+                    booking.tbohConfirmationNo.toLowerCase().includes(searchTerm) ||
+                    booking.hotelCity.toLowerCase().includes(searchTerm) ||
+                    booking.hotelCountry.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // تطبيق تصفية الحالة
+            if (statusFilter !== 'all') {
+                filteredBookings = filteredBookings.filter(booking => booking.refundStatus === statusFilter);
+            }
+            
+            // عرض النتائج
+            displayHotelBookings(filteredBookings);
+        }
+        
+        // البحث في حجوزات الطيران
+        function searchFlightBookings() {
+            const searchTerm = document.getElementById('flightSearchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('flightStatusFilter').value;
+            
+            let filteredBookings = flightBookings;
+            
+            // تطبيق البحث النصي
+            if (searchTerm) {
+                filteredBookings = filteredBookings.filter(booking => 
+                    booking.clientName.toLowerCase().includes(searchTerm) ||
+                    booking.clientCode.toLowerCase().includes(searchTerm) ||
+                    booking.flyFrom.toLowerCase().includes(searchTerm) ||
+                    booking.flyTo.toLowerCase().includes(searchTerm) ||
+                    booking.confirmationNo.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // تطبيق تصفية الحالة
+            if (statusFilter !== 'all') {
+                filteredBookings = filteredBookings.filter(booking => booking.bookingStatus === statusFilter);
+            }
+            
+            // عرض النتائج
+            displayFlightBookings(filteredBookings);
+        }
+        
+        // تبديل اللغة (وظيفة أساسية)
+        function toggleLanguage() {
+            alert('وظيفة تبديل اللغة قيد التطوير');
+        }
+        
+        // ========== وظائف التصدير ==========
+        
+        // تصدير حجوزات العملاء إلى Excel
+        function exportClientBookingsToExcel() {
+            try {
+                // تحضير البيانات للتصدير
+                const exportData = clientBookings.map(booking => ({
+                    'تاريخ الحجز': formatDisplayDate(booking.bookingDate),
+                    'اسم العميل': booking.clientName,
+                    'كود العميل': booking.clientCode,
+                    'الوكيل': booking.agentName,
+                    'من': booking.travelFrom,
+                    'إلى': booking.travelTo,
+                    'نوع الحزمة': booking.packageType || '-',
+                    'إجمالي الحزمة': booking.finalPackageRate.toFixed(2),
+                    'المدفوع': booking.amountPaid.toFixed(2),
+                    'المتبقي': booking.balance.toFixed(2),
+                    'العملة': booking.currency,
+                    'حالة الحجز': booking.packageStatus,
+                    'تاريخ التنبيه': formatDisplayDate(booking.alarmDate),
+                    'ملاحظات': booking.notes || '-'
+                }));
+                
+                // إنشاء ورقة عمل
+                const ws = XLSX.utils.json_to_sheet(exportData);
+                
+                // ضبط اتجاه النص للغة العربية
+                adjustExcelFormatting(ws);
+                
+                // إنشاء مصنف
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "حجوزات العملاء");
+                
+                // توليد اسم الملف
+                const dateStr = new Date().toISOString().slice(0, 10);
+                const fileName = `حجوزات_العملاء_${dateStr}.xlsx`;
+                
+                // حفظ الملف
+                XLSX.writeFile(wb, fileName);
+                
+                alert(`تم تصدير بيانات حجوزات العملاء إلى ملف Excel: ${fileName}`);
+            } catch (error) {
+                console.error('خطأ في التصدير إلى Excel:', error);
+                alert('حدث خطأ أثناء تصدير البيانات إلى Excel. يرجى المحاولة مرة أخرى.');
+            }
+        }
+        
+        // تصدير حجوزات الفنادق إلى Excel
+        function exportHotelBookingsToExcel() {
+            try {
+                // تحضير البيانات للتصدير
+                const exportData = hotelBookings.map(booking => ({
+                    'TBOH رقم التأكيد': booking.tbohConfirmationNo,
+                    'اسم الفندق': booking.hotelName,
+                    'مدينة الفندق': booking.hotelCity,
+                    'دولة الفندق': booking.hotelCountry,
+                    'تاريخ الوصول': formatDisplayDate(booking.checkInDate),
+                    'وقت الوصول': booking.arrivalTime,
+                    'تاريخ المغادرة': formatDisplayDate(booking.checkOutDate),
+                    'آخر تاريخ للإلغاء': formatDisplayDate(booking.lastCancellationDate),
+                    'عدد الغرف': booking.noOfRooms,
+                    'المبلغ الإجمالي 1': booking.totalAmount1.toFixed(2),
+                    'العملة 1': booking.currency1,
+                    'العملة 2': booking.currency2,
+                    'المبلغ الإجمالي 2': booking.totalAmount2.toFixed(2),
+                    'رسوم الإلغاء': booking.cancellationFee.toFixed(2),
+                    'مبلغ الاسترداد': booking.refundAmount.toFixed(2),
+                    'حالة الاسترداد': booking.refundStatus,
+                    'صافي المبلغ': booking.netAmount.toFixed(2),
+                    'فئة الغرفة': booking.roomCategory,
+                    'ملاحظات': booking.netOfAmount || '-'
+                }));
+                
+                // إنشاء ورقة عمل
+                const ws = XLSX.utils.json_to_sheet(exportData);
+                
+                // ضبط اتجاه النص للغة العربية
+                adjustExcelFormatting(ws);
+                
+                // إنشاء مصنف
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "حجوزات الفنادق");
+                
+                // توليد اسم الملف
+                const dateStr = new Date().toISOString().slice(0, 10);
+                const fileName = `حجوزات_الفنادق_${dateStr}.xlsx`;
+                
+                // حفظ الملف
+                XLSX.writeFile(wb, fileName);
+                
+                alert(`تم تصدير بيانات حجوزات الفنادق إلى ملف Excel: ${fileName}`);
+            } catch (error) {
+                console.error('خطأ في التصدير إلى Excel:', error);
+                alert('حدث خطأ أثناء تصدير البيانات إلى Excel. يرجى المحاولة مرة أخرى.');
+            }
+        }
+        
+        // تصدير حجوزات الطيران إلى Excel
+        function exportFlightBookingsToExcel() {
+            try {
+                // تحضير البيانات للتصدير
+                const exportData = flightBookings.map(booking => ({
+                    'كود العميل': booking.clientCode,
+                    'اسم العميل': booking.clientName,
+                    'من': booking.flyFrom,
+                    'إلى': booking.flyTo,
+                    'عدد المسافرين': booking.paxNumber,
+                    'تاريخ الذهاب': formatDisplayDate(booking.dateGo),
+                    'تاريخ العودة': formatDisplayDate(booking.dateBack),
+                    'سعر بيع التذكرة': booking.flightSellingRate.toFixed(2),
+                    'سعر الحجز': booking.bookingRate.toFixed(2),
+                    'رقم التأكيد': booking.confirmationNo,
+                    'حجز من': booking.bookedFrom,
+                    'الدفع من': booking.chargeFrom,
+                    'تاريخ الاستحقاق': formatDisplayDate(booking.dueDate),
+                    'حالة الحجز': booking.bookingStatus === 'Active' ? 'نشط' : 'ملغي',
+                    'رسوم الإلغاء': booking.cancellationCharge.toFixed(2),
+                    'استرداد العميل': booking.clientRefund.toFixed(2),
+                    'سعر الحجز بعد الإلغاء': booking.rateAfterCancellation.toFixed(2),
+                    'السعر بعد التحويل': booking.rateAfterConversion.toFixed(2),
+                    'عملة الاسترداد': booking.refundCurrency,
+                    'مبلغ الاسترداد بعد التحويل': booking.refundAmountAfterConversion.toFixed(2),
+                    'ملاحظات': booking.note || '-'
+                }));
+                
+                // إنشاء ورقة عمل
+                const ws = XLSX.utils.json_to_sheet(exportData);
+                
+                // ضبط اتجاه النص للغة العربية
+                adjustExcelFormatting(ws);
+                
+                // إنشاء مصنف
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "حجوزات الطيران");
+                
+                // توليد اسم الملف
+                const dateStr = new Date().toISOString().slice(0, 10);
+                const fileName = `حجوزات_الطيران_${dateStr}.xlsx`;
+                
+                // حفظ الملف
+                XLSX.writeFile(wb, fileName);
+                
+                alert(`تم تصدير بيانات حجوزات الطيران إلى ملف Excel: ${fileName}`);
+            } catch (error) {
+                console.error('خطأ في التصدير إلى Excel:', error);
+                alert('حدث خطأ أثناء تصدير البيانات إلى Excel. يرجى المحاولة مرة أخرى.');
+            }
+        }
+        
+        // تصدير الجوالات السياحية إلى Excel
+        function exportTourBookingsToExcel() {
+            try {
+                // تحضير البيانات للتصدير
+                const exportData = tourBookings.map(booking => ({
+                    'كود العميل': booking.clientCode,
+                    'اسم العميل': booking.clientName,
+                    'التاريخ': formatDisplayDate(booking.date),
+                    'الوجهة': booking.destination,
+                    'المزود': booking.supplier,
+                    'اسم الجوالة': booking.tour,
+                    'تكلفة الجوالة': booking.cost.toFixed(2),
+                    'العملة': booking.currency,
+                    'سعر الحجز': booking.bookingRate.toFixed(2),
+                    'رقم التأكيد': booking.confirmationNo,
+                    'حجز من': booking.bookedFrom,
+                    'الدفع من': booking.chargeFrom,
+                    'تاريخ الاستحقاق': formatDisplayDate(booking.dueDate),
+                    'حالة الحجز': booking.status === 'Active' ? 'نشط' : 'ملغي',
+                    'رسوم الإلغاء': booking.cancellationCharge.toFixed(2),
+                    'استرداد العميل': booking.clientRefund.toFixed(2),
+                    'سعر الحجز بعد الإلغاء': booking.rateAfterCancellation.toFixed(2),
+                    'السعر بعد التحويل': booking.rateAfterConversion.toFixed(2),
+                    'ملاحظات': booking.note || '-',
+                    'مبلغ الاسترداد بعد التحويل': booking.refundAmountAfterConversion.toFixed(2)
+                }));
+                
+                // إنشاء ورقة عمل
+                const ws = XLSX.utils.json_to_sheet(exportData);
+                
+                // ضبط اتجاه النص للغة العربية
+                adjustExcelFormatting(ws);
+                
+                // إنشاء مصنف
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "الجوالات السياحية");
+                
+                // توليد اسم الملف
+                const dateStr = new Date().toISOString().slice(0, 10);
+                const fileName = `الجوالات_السياحية_${dateStr}.xlsx`;
+                
+                // حفظ الملف
+                XLSX.writeFile(wb, fileName);
+                
+                alert(`تم تصدير بيانات الجوالات السياحية إلى ملف Excel: ${fileName}`);
+            } catch (error) {
+                console.error('خطأ في التصدير إلى Excel:', error);
+                alert('حدث خطأ أثناء تصدير البيانات إلى Excel. يرجى المحاولة مرة أخرى.');
+            }
+        }
+        
+        // ========== وظائف الطباعة ==========
+        
+        // طباعة حجوزات العملاء
+        function printClientBookings() {
+            // حفظ التبويب الحالي
+            const currentTab = document.querySelector('.tab.active').id.replace('-tab', '');
+            
+            // تبديل إلى تبويب حجوزات العملاء
+            switchTab('client-bookings');
+            
+            // الانتظار قليلاً ثم الطباعة
+            setTimeout(() => {
+                window.print();
+                
+                // العودة إلى التبويب السابق
+                setTimeout(() => {
+                    switchTab(currentTab);
+                }, 100);
+            }, 500);
+        }
+        
+        // طباعة حجوزات الفنادق
+        function printHotelBookings() {
+            // حفظ التبويب الحالي
+            const currentTab = document.querySelector('.tab.active').id.replace('-tab', '');
+            
+            // تبديل إلى تبويب حجوزات الفنادق
+            switchTab('hotel-bookings');
+            
+            // الانتظار قليلاً ثم الطباعة
+            setTimeout(() => {
+                window.print();
+                
+                // العودة إلى التبويب السابق
+                setTimeout(() => {
+                    switchTab(currentTab);
+                }, 100);
+            }, 500);
+        }
+        
+        // طباعة حجوزات الطيران
+        function printFlightBookings() {
+            // حفظ التبويب الحالي
+            const currentTab = document.querySelector('.tab.active').id.replace('-tab', '');
+            
+            // تبديل إلى تبويب حجوزات الطيران
+            switchTab('flight-bookings');
+            
+            // الانتظار قليلاً ثم الطباعة
+            setTimeout(() => {
+                window.print();
+                
+                // العودة إلى التبويب السابق
+                setTimeout(() => {
+                    switchTab(currentTab);
+                }, 100);
+            }, 500);
+        }
+        
+        // طباعة الجوالات السياحية
+        function printTourBookings() {
+            // حفظ التبويب الحالي
+            const currentTab = document.querySelector('.tab.active').id.replace('-tab', '');
+            
+            // تبديل إلى تبويب الجوالات السياحية
+            switchTab('tour-bookings');
+            
+            // الانتظار قليلاً ثم الطباعة
+            setTimeout(() => {
+                window.print();
+                
+                // العودة إلى التبويب السابق
+                setTimeout(() => {
+                    switchTab(currentTab);
+                }, 100);
+            }, 500);
+        }
+        
+        // طباعة التقرير المالي
+        function printFinancialReport() {
+            // حفظ التبويب الحالي
+            const currentTab = document.querySelector('.tab.active').id.replace('-tab', '');
+            
+            // تبديل إلى تبويب التقارير المالية
+            switchTab('financial');
+            
+            // الانتظار قليلاً ثم الطباعة
+            setTimeout(() => {
+                window.print();
+                
+                // العودة إلى التبويب السابق
+                setTimeout(() => {
+                    switchTab(currentTab);
+                }, 100);
+            }, 500);
+        }
+        
+        // ========== وظائف النسخ الاحتياطي ==========
+        
+        // حفظ النسخة الاحتياطية في LocalStorage
+        function saveBackupToLocalStorage() {
+            const backupData = {
+                clientBookings,
+                hotelBookings,
+                flightBookings,
+                tourBookings,
+                backupDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('bookingSystemBackup', JSON.stringify(backupData));
+            alert('تم حفظ النسخة الاحتياطية بنجاح في التخزين المحلي.');
+        }
+        
+        // استعادة النسخة الاحتياطية من LocalStorage
+        function restoreBackupFromLocalStorage() {
+            const backupData = localStorage.getItem('bookingSystemBackup');
+            if (!backupData) {
+                alert('لا توجد نسخة احتياطية في التخزين المحلي.');
+                return;
+            }
+            
+            if (!confirm('هل أنت متأكد من استعادة النسخة الاحتياطية؟ سيتم استبدال جميع البيانات الحالية.')) {
+                return;
+            }
+            
+            try {
+                const parsedData = JSON.parse(backupData);
+                
+                // التحقق من وجود البيانات الأساسية
+                if (parsedData.clientBookings && parsedData.hotelBookings && parsedData.flightBookings && parsedData.tourBookings) {
+                    clientBookings = parsedData.clientBookings;
+                    hotelBookings = parsedData.hotelBookings;
+                    flightBookings = parsedData.flightBookings;
+                    tourBookings = parsedData.tourBookings;
+                    
+                    // تحديث جميع العروض
+                    displayClientBookings();
+                    displayHotelBookings();
+                    displayFlightBookings();
+                    displayTourBookings();
+                    updateSummary();
+                    updateFinancialSummary();
+                    checkAlarms();
+                    
+                    alert('تم استعادة النسخة الاحتياطية بنجاح.');
+                } else {
+                    alert('ملف النسخة الاحتياطية لا يحتوي على بيانات صحيحة.');
+                }
+            } catch (error) {
+                alert('حدث خطأ أثناء استعادة النسخة الاحتياطية: ' + error.message);
+            }
+        }
+        
+        // تنزيل النسخة الاحتياطية كملف JSON
+        function downloadBackupFile() {
+            const backupData = {
+                clientBookings,
+                hotelBookings,
+                flightBookings,
+                tourBookings,
+                backupDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+            const fileName = `booking_system_backup_${dateStr}.json`;
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = fileName;
+            link.click();
+            
+            URL.revokeObjectURL(link.href);
+        }
+        
+        // تحميل ملف النسخة الاحتياطية
+        function uploadBackupFile() {
+            document.getElementById('backupFileInput').click();
+        }
+        
+        // معالجة ملف النسخة الاحتياطية المرفوع
+        function handleBackupFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+            
+            if (!confirm('هل أنت متأكد من تحميل النسخة الاحتياطية؟ سيتم استبدال جميع البيانات الحالية.')) {
+                // إعادة تعيين حقل الملف
+                event.target.value = '';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsedData = JSON.parse(e.target.result);
+                    
+                    // التحقق من وجود البيانات الأساسية
+                    if (parsedData.clientBookings && parsedData.hotelBookings && parsedData.flightBookings && parsedData.tourBookings) {
+                        clientBookings = parsedData.clientBookings;
+                        hotelBookings = parsedData.hotelBookings;
+                        flightBookings = parsedData.flightBookings;
+                        tourBookings = parsedData.tourBookings;
+                        
+                        // تحديث جميع العروض
+                        displayClientBookings();
+                        displayHotelBookings();
+                        displayFlightBookings();
+                        displayTourBookings();
+                        updateSummary();
+                        updateFinancialSummary();
+                        checkAlarms();
+                        
+                        alert('تم تحميل النسخة الاحتياطية بنجاح.');
+                    } else {
+                        alert('ملف النسخة الاحتياطية لا يحتوي على بيانات صحيحة.');
+                    }
+                } catch (error) {
+                    alert('حدث خطأ أثناء تحميل النسخة الاحتياطية: ' + error.message);
+                }
+                
+                // إعادة تعيين حقل الملف
+                event.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // ========== وظائف إضافية (ستوب) ==========
+        
+        // هذه الوظائف موجودة في الواجهة ولكن لم تكتمل بعد
+        function showClientAlarms() {
+            alert('عرض تنبيهات حجوزات العملاء - قيد التطوير');
+        }
+        
+        function showHotelAlarms() {
+            alert('عرض تنبيهات حجوزات الفنادق - قيد التطوير');
+        }
+        
+        function showFlightAlarms() {
+            alert('عرض تنبيهات حجوزات الطيران - قيد التطوير');
+        }
+        
+        function showTourAlarms() {
+            alert('عرض تنبيهات الجوالات السياحية - قيد التطوير');
+        }
+        
+        function markAllAlarmsAsRead() {
+            alert('تم تعليم جميع التنبيهات كمقروءة - قيد التطوير');
+        }
+        
+        function refreshAlarms() {
+            checkAlarms();
+            alert('تم تحديث التنبيهات');
+        }
+        
+        function sendAlarmReminders() {
+            alert('إرسال تذكيرات التنبيهات - قيد التطوير');
+        }
+        
+        function exportFinancialReport() {
+            alert('تصدير التقرير المالي - قيد التطوير');
+        }
+        
+        function generateRevenueChart() {
+            alert('عرض مخطط الإيرادات - قيد التطوير');
+        }
+        
+        // وظائف التعديل (ستوب)
+        function editClientBooking(id) {
+            alert(`تعديل حجز العميل رقم ${id} - قيد التطوير`);
+        }
+        
+        function editHotelBooking(id) {
+            alert(`تعديل حجز الفندق رقم ${id} - قيد التطوير`);
+        }
+        
+        function editFlightBooking(id) {
+            alert(`تعديل حجز الطيران رقم ${id} - قيد التطوير`);
+        }
+        
+        function editTourBooking(id) {
+            alert(`تعديل الجوالة السياحية رقم ${id} - قيد التطوير`);
+        }
+        
+        function viewClientBookingDetails(id) {
+            alert(`عرض تفاصيل حجز العميل رقم ${id} - قيد التطوير`);
+        }
+        
+        function viewTourBookingDetails(id) {
+            alert(`عرض تفاصيل الجوالة السياحية رقم ${id} - قيد التطوير`);
+        }
+        
+        function deleteHotelBooking(id) {
+            if (!confirm("هل أنت متأكد من حذف هذا الحجز؟")) return;
+            
+            // حذف من المصفوفة
+            hotelBookings = hotelBookings.filter(booking => booking.id !== id);
+            
+            // تحديث العرض
+            displayHotelBookings();
+            updateSummary();
+            updateFinancialSummary();
+            
+            alert("تم حذف الحجز بنجاح!");
+        }
+        
+        function deleteFlightBooking(id) {
+            if (!confirm("هل أنت متأكد من حذف هذا الحجز؟")) return;
+            
+            // حذف من المصفوفة
+            flightBookings = flightBookings.filter(booking => booking.id !== id);
+            
+            // تحديث العرض
+            displayFlightBookings();
+            updateSummary();
+            updateFinancialSummary();
+            
+            alert("تم حذف الحجز بنجاح!");
+        }
+        
+        function deleteTourBooking(id) {
+            if (!confirm("هل أنت متأكد من حذف هذا الحجز؟")) return;
+            
+            // حذف من المصفوفة
+            tourBookings = tourBookings.filter(booking => booking.id !== id);
+            
+            // تحديث العرض
+            displayTourBookings();
+            updateSummary();
+            updateFinancialSummary();
+            
+            alert("تم حذف الحجز بنجاح!");
+        }
+        
+    </script>
+</body>
+</html>
